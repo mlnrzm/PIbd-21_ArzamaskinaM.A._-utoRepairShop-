@@ -1,5 +1,5 @@
 ﻿
-namespace CarRepairShop
+namespace AbstractCarRepairShopView
 {
     partial class Form1
     {
