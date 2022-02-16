@@ -6,4 +6,13 @@
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Unity" Version="5.11.10" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AbstractCarRepairShopBusinessLogic\AbstractCarRepairShopBusinessLogic.csproj" />
+    <ProjectReference Include="..\AbstractCarRepairShopListImplement\AbstractCarRepairShopListImplement.csproj" />
+  </ItemGroup>
+
 </Project>
