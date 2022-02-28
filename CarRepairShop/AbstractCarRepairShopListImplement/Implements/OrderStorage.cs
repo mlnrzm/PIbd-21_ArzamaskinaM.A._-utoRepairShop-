@@ -119,6 +119,7 @@ namespace AbstractCarRepairShopListImplement.Implements
                 if (source.Repairs[i].Id == order.RepairId)
                 {
                     repairName = source.Repairs[i].RepairName;
+                    break;
                 }
             }
 
