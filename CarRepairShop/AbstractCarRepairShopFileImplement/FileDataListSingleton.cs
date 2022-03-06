@@ -72,7 +72,7 @@ namespace AbstractCarRepairShopFileImplement
                         Sum = Convert.ToDecimal(elem.Element("Sum").Value),
                         Status = (OrderStatus)Enum.Parse(typeof(OrderStatus), Convert.ToString(elem.Element("Status").Value), true),
                         DateCreate = Convert.ToDateTime(elem.Element("DateCreate").Value),
-                        //DateImplement = Convert.ToDateTime(elem.Element("DateImplement").Value)
+                        DateImplement = Convert.ToDateTime(elem.Element("DateImplement").Value)
                     });
                 }
             }
