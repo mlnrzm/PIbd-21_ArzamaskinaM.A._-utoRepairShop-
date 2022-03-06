@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.32106.194
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AbstractCarRepairShopView", "AbstractCarRepairShopView\AbstractCarRepairShopView.csproj", "{BA1684AD-4F85-4E5B-90C8-17988CA5E585}"
+	ProjectSection(ProjectDependencies) = postProject
+		{46D6D788-E80D-4859-92E6-B5DD32682D04} = {46D6D788-E80D-4859-92E6-B5DD32682D04}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AbstractCarRepairShopContracts", "AbstractCarRepairShopContracts\AbstractCarRepairShopContracts.csproj", "{DC7E5600-2AA1-466C-B20F-3778AEEE4B0C}"
 EndProject
@@ -12,6 +15,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AbstractCarRepairShopListImplement", "AbstractCarRepairShopListImplement\AbstractCarRepairShopListImplement.csproj", "{916F8F45-B5D0-4356-A0DB-62893F224047}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbstractCarRepairShopFileImplement", "AbstractCarRepairShopFileImplement\AbstractCarRepairShopFileImplement.csproj", "{B9CAE155-5FD4-4B91-A09D-78EA6B74591E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbstractCarRepairShopDatabaseImplement", "AbstractCarRepairShopDatabaseImplement\AbstractCarRepairShopDatabaseImplement.csproj", "{46D6D788-E80D-4859-92E6-B5DD32682D04}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +44,10 @@ Global
 		{B9CAE155-5FD4-4B91-A09D-78EA6B74591E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B9CAE155-5FD4-4B91-A09D-78EA6B74591E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B9CAE155-5FD4-4B91-A09D-78EA6B74591E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46D6D788-E80D-4859-92E6-B5DD32682D04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46D6D788-E80D-4859-92E6-B5DD32682D04}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46D6D788-E80D-4859-92E6-B5DD32682D04}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46D6D788-E80D-4859-92E6-B5DD32682D04}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
