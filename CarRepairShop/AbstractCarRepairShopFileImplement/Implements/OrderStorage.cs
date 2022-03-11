@@ -85,14 +85,10 @@ namespace AbstractCarRepairShopFileImplement.Implements
         {
             string repairName = "";
 
-            for (int i = 0; i < source.Repairs.Count; ++i)
-            {
-                if (source.Repairs[i].Id == order.RepairId)
-                {
-                    repairName = source.Repairs[i].RepairName;
-                    break;
-                }
-            }
+            var tempOrder = from repair in source.Repairs
+                            where repair.Id == order.RepairId
+                            select repair;
+            repairName = ((Repair)tempOrder.FirstOrDefault()).RepairName;
 
             return new OrderViewModel
             {
