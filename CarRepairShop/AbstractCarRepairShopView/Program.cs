@@ -1,12 +1,13 @@
 using AbstractCarRepairShopBusinessLogic.BusinessLogics;
 using AbstractCarRepairShopContracts.BusinessLogicsContracts;
 using AbstractCarRepairShopContracts.StoragesContracts;
-using AbstractCarRepairShopListImplement.Implements;
+using AbstractCarRepairShopFileImplement.Implements;
 using System;
 using System.Windows.Forms;
 using Unity;
 using Unity.Lifetime;
 using AbstractCarRepairShopView;
+using AbstractCarRepairShopFileImplement;
 
 namespace CarRepairShop
 {
@@ -34,6 +35,7 @@ namespace CarRepairShop
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(Container.Resolve<FormMain>());
+            FileDataListSingleton.GetInstance().SaveFileDataListSingleton();
         }
         private static IUnityContainer BuildUnityContainer()
         {
