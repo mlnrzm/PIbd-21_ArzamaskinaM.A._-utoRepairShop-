@@ -18,7 +18,5 @@ namespace AbstractCarRepairShopDatabaseImplement.Models
         public virtual List<Order> Orders { get; set; }
         [ForeignKey("RepairId")]
         public virtual List<RepairComponent> RepairComponents { get; set; }
-
-
     }
 }

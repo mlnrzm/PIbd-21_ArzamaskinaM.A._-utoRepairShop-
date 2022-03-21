@@ -64,6 +64,10 @@ namespace AbstractCarRepairShopFileImplement
                 var xElements = xDocument.Root.Elements("Order").ToList();
                 foreach (var elem in xElements)
                 {
+                    DateTime dt = default;
+                    if (elem.Element("DateImplement").Value != "")
+                        dt = Convert.ToDateTime(elem.Element("DateImplement").Value);
+
                     list.Add(new Order
                     {
                         Id = Convert.ToInt32(elem.Attribute("Id").Value),
@@ -72,7 +76,7 @@ namespace AbstractCarRepairShopFileImplement
                         Sum = Convert.ToDecimal(elem.Element("Sum").Value),
                         Status = (OrderStatus)Enum.Parse(typeof(OrderStatus), Convert.ToString(elem.Element("Status").Value), true),
                         DateCreate = Convert.ToDateTime(elem.Element("DateCreate").Value),
-                        //DateImplement = Convert.ToDateTime(elem.Element("DateImplement").Value)
+                        DateImplement = dt
                     });
                 }
             }

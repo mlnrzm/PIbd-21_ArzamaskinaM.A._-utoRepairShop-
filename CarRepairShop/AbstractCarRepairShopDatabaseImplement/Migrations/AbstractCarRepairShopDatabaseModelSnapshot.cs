@@ -83,7 +83,7 @@ namespace AbstractCarRepairShopDatabaseImplement.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Products");
+                    b.ToTable("Repairs");
                 });
 
             modelBuilder.Entity("AbstractCarRepairShopDatabaseImplement.Models.RepairComponent", b =>
@@ -108,12 +108,12 @@ namespace AbstractCarRepairShopDatabaseImplement.Migrations
 
                     b.HasIndex("RepairId");
 
-                    b.ToTable("ProductComponents");
+                    b.ToTable("RepairComponents");
                 });
 
             modelBuilder.Entity("AbstractCarRepairShopDatabaseImplement.Models.Order", b =>
                 {
-                    b.HasOne("AbstractCarRepairShopDatabaseImplement.Models.Repair", "Repair")
+                    b.HasOne("AbstractCarRepairShopDatabaseImplement.Models.Repair", null)
                         .WithMany("Orders")
                         .HasForeignKey("RepairId")
                         .OnDelete(DeleteBehavior.Cascade)

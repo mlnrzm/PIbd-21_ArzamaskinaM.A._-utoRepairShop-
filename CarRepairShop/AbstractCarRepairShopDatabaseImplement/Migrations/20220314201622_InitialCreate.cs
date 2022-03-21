@@ -21,7 +21,7 @@ namespace AbstractCarRepairShopDatabaseImplement.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Products",
+                name: "Repairs",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -31,7 +31,7 @@ namespace AbstractCarRepairShopDatabaseImplement.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Products", x => x.Id);
+                    table.PrimaryKey("PK_Repairs", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -51,15 +51,15 @@ namespace AbstractCarRepairShopDatabaseImplement.Migrations
                 {
                     table.PrimaryKey("PK_Orders", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Orders_Products_RepairId",
+                        name: "FK_Orders_Repairs_RepairId",
                         column: x => x.RepairId,
-                        principalTable: "Products",
+                        principalTable: "Repairs",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProductComponents",
+                name: "RepairComponents",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -70,17 +70,17 @@ namespace AbstractCarRepairShopDatabaseImplement.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProductComponents", x => x.Id);
+                    table.PrimaryKey("PK_RepairComponents", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ProductComponents_Components_ComponentId",
+                        name: "FK_RepairComponents_Components_ComponentId",
                         column: x => x.ComponentId,
                         principalTable: "Components",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ProductComponents_Products_RepairId",
+                        name: "FK_RepairComponents_Repairs_RepairId",
                         column: x => x.RepairId,
-                        principalTable: "Products",
+                        principalTable: "Repairs",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -91,13 +91,13 @@ namespace AbstractCarRepairShopDatabaseImplement.Migrations
                 column: "RepairId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductComponents_ComponentId",
-                table: "ProductComponents",
+                name: "IX_RepairComponents_ComponentId",
+                table: "RepairComponents",
                 column: "ComponentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductComponents_RepairId",
-                table: "ProductComponents",
+                name: "IX_RepairComponents_RepairId",
+                table: "RepairComponents",
                 column: "RepairId");
         }
 
@@ -107,13 +107,13 @@ namespace AbstractCarRepairShopDatabaseImplement.Migrations
                 name: "Orders");
 
             migrationBuilder.DropTable(
-                name: "ProductComponents");
+                name: "RepairComponents");
 
             migrationBuilder.DropTable(
                 name: "Components");
 
             migrationBuilder.DropTable(
-                name: "Products");
+                name: "Repairs");
         }
     }
 }

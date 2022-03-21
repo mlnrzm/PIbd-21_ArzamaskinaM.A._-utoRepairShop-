@@ -17,7 +17,5 @@ namespace AbstractCarRepairShopDatabaseImplement.Models
         [Required]
         public DateTime DateCreate { get; set; }
         public DateTime? DateImplement { get; set; }
-        public virtual Repair Repair { get; set; }
-
     }
 }

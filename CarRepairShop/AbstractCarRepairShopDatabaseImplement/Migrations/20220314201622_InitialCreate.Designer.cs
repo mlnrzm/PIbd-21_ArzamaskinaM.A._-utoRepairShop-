@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AbstractCarRepairShopDatabaseImplement.Migrations
 {
     [DbContext(typeof(AbstractCarRepairShopDatabase))]
-    [Migration("20220301071826_InitialCreate")]
+    [Migration("20220314201622_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -85,7 +85,7 @@ namespace AbstractCarRepairShopDatabaseImplement.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Products");
+                    b.ToTable("Repairs");
                 });
 
             modelBuilder.Entity("AbstractCarRepairShopDatabaseImplement.Models.RepairComponent", b =>
@@ -110,18 +110,16 @@ namespace AbstractCarRepairShopDatabaseImplement.Migrations
 
                     b.HasIndex("RepairId");
 
-                    b.ToTable("ProductComponents");
+                    b.ToTable("RepairComponents");
                 });
 
             modelBuilder.Entity("AbstractCarRepairShopDatabaseImplement.Models.Order", b =>
                 {
-                    b.HasOne("AbstractCarRepairShopDatabaseImplement.Models.Repair", "Repair")
+                    b.HasOne("AbstractCarRepairShopDatabaseImplement.Models.Repair", null)
                         .WithMany("Orders")
                         .HasForeignKey("RepairId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Repair");
                 });
 
             modelBuilder.Entity("AbstractCarRepairShopDatabaseImplement.Models.RepairComponent", b =>
