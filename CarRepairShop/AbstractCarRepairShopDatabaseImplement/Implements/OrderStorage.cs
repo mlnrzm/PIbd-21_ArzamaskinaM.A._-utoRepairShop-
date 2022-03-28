@@ -26,7 +26,7 @@ namespace AbstractCarRepairShopDatabaseImplement.Implements
             }
             using var context = new AbstractCarRepairShopDatabase();
             return context.Orders
-            .Where(rec => rec.RepairId == model.RepairId)
+            .Where(rec => rec.RepairId == model.RepairId && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo)
             .Select(CreateModel)
             .ToList();
         }

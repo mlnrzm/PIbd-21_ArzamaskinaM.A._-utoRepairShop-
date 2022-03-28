@@ -28,7 +28,9 @@ namespace AbstractCarRepairShopFileImplement.Implements
                 return null;
             }
             var result = from order in source.Orders
-                         where order.Id == model.Id
+                         where order.Id == model.Id && 
+                               order.DateCreate >= model.DateFrom && 
+                               order.DateCreate <= model.DateTo
                          select CreateModel(order);
             return result.ToList();
         }
