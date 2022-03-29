@@ -14,9 +14,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AbstractCarRepairShopBusine
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AbstractCarRepairShopListImplement", "AbstractCarRepairShopListImplement\AbstractCarRepairShopListImplement.csproj", "{916F8F45-B5D0-4356-A0DB-62893F224047}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbstractCarRepairShopFileImplement", "AbstractCarRepairShopFileImplement\AbstractCarRepairShopFileImplement.csproj", "{B9CAE155-5FD4-4B91-A09D-78EA6B74591E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AbstractCarRepairShopFileImplement", "AbstractCarRepairShopFileImplement\AbstractCarRepairShopFileImplement.csproj", "{B9CAE155-5FD4-4B91-A09D-78EA6B74591E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbstractCarRepairShopDatabaseImplement", "AbstractCarRepairShopDatabaseImplement\AbstractCarRepairShopDatabaseImplement.csproj", "{46D6D788-E80D-4859-92E6-B5DD32682D04}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AbstractCarRepairShopDatabaseImplement", "AbstractCarRepairShopDatabaseImplement\AbstractCarRepairShopDatabaseImplement.csproj", "{46D6D788-E80D-4859-92E6-B5DD32682D04}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

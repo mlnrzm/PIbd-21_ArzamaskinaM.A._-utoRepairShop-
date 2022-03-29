@@ -17,14 +17,14 @@ namespace AbstractCarRepairShopView
         {
             try
             {
-                var dict = _logic.GetRepairComponent();
+                var dict = _logic.GetRepair();
                 if (dict != null)
                 {
                     dataGridView.Rows.Clear();
                     foreach (var elem in dict)
                     {
-                        dataGridView.Rows.Add(new object[] { elem.ComponentName, "", "" });
-                        foreach (var listElem in elem.Repairs)
+                        dataGridView.Rows.Add(new object[] { elem.RepairName, "", "" });
+                        foreach (var listElem in elem.RepairComponents)
                         {
                             dataGridView.Rows.Add(new object[] { "", listElem.Item1, listElem.Item2 });
                         }

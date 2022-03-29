@@ -1,6 +1,7 @@
 ﻿using AbstractCarRepairShopContracts.BindingModels;
 using AbstractCarRepairShopContracts.ViewModels;
 using System.Collections.Generic;
+
 namespace AbstractCarRepairShopContracts.BusinessLogicsContracts
 {
     public interface IReportLogic
@@ -9,7 +10,7 @@ namespace AbstractCarRepairShopContracts.BusinessLogicsContracts
         /// Получение списка компонент с указанием, в каких изделиях используются
         /// </summary>
         /// <returns></returns>
-        List<ReportRepairComponentViewModel> GetRepairComponent();
+        List<ReportRepairComponentViewModel> GetRepair();
         /// <summary>
         /// Получение списка заказов за определенный период
         /// </summary>

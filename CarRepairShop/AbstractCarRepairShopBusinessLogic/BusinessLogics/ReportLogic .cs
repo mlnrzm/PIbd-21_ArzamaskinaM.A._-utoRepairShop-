@@ -13,17 +13,17 @@ namespace AbstractCarRepairShopBusinessLogic.BusinessLogics
     public class ReportLogic : IReportLogic
     {
         private readonly IComponentStorage _componentStorage;
-        private readonly IRepairStorage _productStorage;
+        private readonly IRepairStorage _repairStorage;
         private readonly IOrderStorage _orderStorage;
         private readonly AbstractSaveToExcel _saveToExcel;
         private readonly AbstractSaveToWord _saveToWord;
         private readonly AbstractSaveToPdf _saveToPdf;
-        public ReportLogic(IRepairStorage productStorage, IComponentStorage
+        public ReportLogic(IRepairStorage repairStorage, IComponentStorage
        componentStorage, IOrderStorage orderStorage,
         AbstractSaveToExcel saveToExcel, AbstractSaveToWord saveToWord,
        AbstractSaveToPdf saveToPdf)
         {
-            _productStorage = productStorage;
+            _repairStorage = repairStorage;
             _componentStorage = componentStorage;
             _orderStorage = orderStorage;
             _saveToExcel = saveToExcel;
@@ -31,30 +31,29 @@ namespace AbstractCarRepairShopBusinessLogic.BusinessLogics
             _saveToPdf = saveToPdf;
         }
         /// <summary>
-        /// Получение списка компонент с указанием, в каких изделиях используются
+        /// Получение списка ремонтов с указанием, какие компоненты используются
         /// </summary>
         /// <returns></returns>
-        public List<ReportRepairComponentViewModel> GetRepairComponent()
+        public List<ReportRepairComponentViewModel> GetRepair()
         {
             var components = _componentStorage.GetFullList();
-            var repairs = _productStorage.GetFullList();
+            var repairs = _repairStorage.GetFullList();
             var list = new List<ReportRepairComponentViewModel>();
-            foreach (var component in components)
+            foreach (var repair in repairs)
             {
                 var record = new ReportRepairComponentViewModel
                 {
-                    ComponentName = component.ComponentName,
-                    Repairs = new List<Tuple<string, int>>(),
+                    RepairName = repair.RepairName,
+                    RepairComponents = new List<Tuple<string, int>>(),
                     TotalCount = 0
                 };
-                foreach (var repair in repairs)
+                foreach (var component in components)
                 {
                     if (repair.RepairComponents.ContainsKey(component.Id))
                     {
-                        record.Repairs.Add(new Tuple<string, int>(repair.RepairName,
-                       repair.RepairComponents[component.Id].Item2));
-                        record.TotalCount +=
-                       repair.RepairComponents[component.Id].Item2;
+                        record.RepairComponents.Add(new Tuple<string, int>(component.ComponentName, 
+                            repair.RepairComponents[component.Id].Item2));
+                        record.TotalCount += repair.RepairComponents[component.Id].Item2;
                     }
                 }
                 list.Add(record);
@@ -84,7 +83,7 @@ namespace AbstractCarRepairShopBusinessLogic.BusinessLogics
            .ToList();
         }
         /// <summary>
-        /// Сохранение компонент в файл-Word
+        /// Сохранение ремонтов в файл-Word
         /// </summary>
         /// <param name="model"></param>
         public void SaveComponentsToWordFile(ReportBindingModel model)
@@ -92,12 +91,12 @@ namespace AbstractCarRepairShopBusinessLogic.BusinessLogics
             _saveToWord.CreateDoc(new WordInfo
             {
                 FileName = model.FileName,
-                Title = "Список компонент",
-                Components = _componentStorage.GetFullList()
+                Title = "Список ремонтов",
+                Repairs = _repairStorage.GetFullList()
             });
         }
         /// <summary>
-        /// Сохранение компонент с указаеним продуктов в файл-Excel
+        /// Сохранение ремонтов с указанием компонент в файл-Excel
         /// </summary>
         /// <param name="model"></param>
         public void SaveRepairComponentToExcelFile(ReportBindingModel model)
@@ -105,8 +104,8 @@ namespace AbstractCarRepairShopBusinessLogic.BusinessLogics
             _saveToExcel.CreateReport(new ExcelInfo
             {
                 FileName = model.FileName,
-                Title = "Список компонент",
-                RepairComponents = GetRepairComponent()
+                Title = "Список изделий и компонент",
+                Repairs = GetRepair()
             });
         }
         /// <summary>

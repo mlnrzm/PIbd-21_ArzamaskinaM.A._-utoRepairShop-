@@ -24,12 +24,23 @@ namespace AbstractCarRepairShopDatabaseImplement.Implements
             {
                 return null;
             }
+            if (model.DateFrom != null && model.DateTo != null) { 
             using var context = new AbstractCarRepairShopDatabase();
             return context.Orders
-            .Where(rec => rec.RepairId == model.RepairId && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo)
+            .Where(rec => rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo)
+            //.Where(rec => rec.RepairId == model.RepairId 
+            //   && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo)
             .Select(CreateModel)
             .ToList();
-        }
+            }
+            using var context_ = new AbstractCarRepairShopDatabase();
+            return context_.Orders
+            .Where(rec => rec.RepairId == model.RepairId)
+            .Select(CreateModel)
+            .ToList();
+
+
+    }
         public OrderViewModel GetElement(OrderBindingModel model)
         {
             if (model == null)

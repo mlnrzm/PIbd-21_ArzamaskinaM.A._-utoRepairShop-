@@ -18,12 +18,14 @@ namespace AbstractCarRepairShopBusinessLogic.OfficePackage
                     JustificationType = WordJustificationType.Center
                 }
             });
-            foreach (var component in info.Components)
+            foreach (var repair in info.Repairs)
             {
                 CreateParagraph(new WordParagraph
                 {
                     Texts = new List<(string, WordTextProperties)> {
-                        (component.ComponentName, new WordTextProperties { Size = "24", }) },
+                        (repair.RepairName, new WordTextProperties { Size = "24", Bold = true }),
+                        (" : ", new WordTextProperties { Size = "24", }),
+                        (repair.Price.ToString(), new WordTextProperties { Size = "24", })},
                     TextProperties = new WordTextProperties
                     {
                         Size = "24",

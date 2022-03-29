@@ -64,8 +64,7 @@ namespace AbstractCarRepairShopBusinessLogic.OfficePackage.Implements
                 {
                     paragraphMarkRunProperties.AppendChild(new FontSize
                     {
-                        Val =
-                   paragraphProperties.Size
+                        Val = paragraphProperties.Size
                     });
                 }
                 properties.AppendChild(paragraphMarkRunProperties);
@@ -101,8 +100,7 @@ namespace AbstractCarRepairShopBusinessLogic.OfficePackage.Implements
                     docRun.AppendChild(new Text
                     {
                         Text = run.Item1,
-                        Space =
-                   SpaceProcessingModeValues.Preserve
+                        Space = SpaceProcessingModeValues.Preserve
                     });
                     docParagraph.AppendChild(docRun);
                 }

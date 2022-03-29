@@ -1,4 +1,5 @@
 ﻿using System;
+
 namespace AbstractCarRepairShopContracts.BindingModels
 {
     public class ReportBindingModel

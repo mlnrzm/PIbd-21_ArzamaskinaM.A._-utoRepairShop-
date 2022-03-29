@@ -25,17 +25,17 @@ namespace AbstractCarRepairShopBusinessLogic.OfficePackage
                 CellToName = "C1"
             });
             uint rowIndex = 2;
-            foreach (var pc in info.RepairComponents)
+            foreach (var pc in info.Repairs)
             {
                 InsertCellInWorksheet(new ExcelCellParameters
                 {
                     ColumnName = "A",
                     RowIndex = rowIndex,
-                    Text = pc.ComponentName,
+                    Text = pc.RepairName,
                     StyleInfo = ExcelStyleInfoType.Text
                 });
                 rowIndex++;
-                foreach (var product in pc.Repairs)
+                foreach (var product in pc.RepairComponents)
                 {
                     InsertCellInWorksheet(new ExcelCellParameters
                     {
