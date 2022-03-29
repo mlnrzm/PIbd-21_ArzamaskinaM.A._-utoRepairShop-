@@ -8,6 +8,7 @@ namespace AbstractCarRepairShopDatabaseImplement.Models
     {
         public int Id { get; set; }
         public int RepairId { get; set; }
+        public virtual Repair Repair { get; set; }
         [Required]
         public int Count { get; set; }
         [Required]

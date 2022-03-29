@@ -36,7 +36,7 @@ namespace AbstractCarRepairShopView
             this.компонентыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ремонтыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.отчётыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.списокКомпонентовToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.списокИзделийToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.компонентыПоИзделиямToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.списокЗаказовToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridViewOrders = new System.Windows.Forms.DataGridView();
@@ -93,19 +93,19 @@ namespace AbstractCarRepairShopView
             // отчётыToolStripMenuItem
             // 
             this.отчётыToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.списокКомпонентовToolStripMenuItem,
+            this.списокИзделийToolStripMenuItem,
             this.компонентыПоИзделиямToolStripMenuItem,
             this.списокЗаказовToolStripMenuItem});
             this.отчётыToolStripMenuItem.Name = "отчётыToolStripMenuItem";
             this.отчётыToolStripMenuItem.Size = new System.Drawing.Size(73, 24);
             this.отчётыToolStripMenuItem.Text = "Отчёты";
             // 
-            // списокКомпонентовToolStripMenuItem
+            // списокИзделийToolStripMenuItem
             // 
-            this.списокКомпонентовToolStripMenuItem.Name = "списокКомпонентовToolStripMenuItem";
-            this.списокКомпонентовToolStripMenuItem.Size = new System.Drawing.Size(276, 26);
-            this.списокКомпонентовToolStripMenuItem.Text = "Список изделий";
-            this.списокКомпонентовToolStripMenuItem.Click += new System.EventHandler(this.списокИзделийToolStripMenuItem_Click);
+            this.списокИзделийToolStripMenuItem.Name = "списокИзделийToolStripMenuItem";
+            this.списокИзделийToolStripMenuItem.Size = new System.Drawing.Size(276, 26);
+            this.списокИзделийToolStripMenuItem.Text = "Список изделий";
+            this.списокИзделийToolStripMenuItem.Click += new System.EventHandler(this.списокИзделийToolStripMenuItem_Click);
             // 
             // компонентыПоИзделиямToolStripMenuItem
             // 
@@ -220,7 +220,7 @@ namespace AbstractCarRepairShopView
         private System.Windows.Forms.Button buttonIssuedOrder;
         private System.Windows.Forms.Button buttonRef;
         private System.Windows.Forms.ToolStripMenuItem отчётыToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem списокКомпонентовToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem списокИзделийToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem компонентыПоИзделиямToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem списокЗаказовToolStripMenuItem;
     }

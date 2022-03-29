@@ -36,7 +36,6 @@ namespace AbstractCarRepairShopBusinessLogic.BusinessLogics
         /// <returns></returns>
         public List<ReportRepairComponentViewModel> GetRepair()
         {
-            var components = _componentStorage.GetFullList();
             var repairs = _repairStorage.GetFullList();
             var list = new List<ReportRepairComponentViewModel>();
             foreach (var repair in repairs)
@@ -47,14 +46,10 @@ namespace AbstractCarRepairShopBusinessLogic.BusinessLogics
                     RepairComponents = new List<Tuple<string, int>>(),
                     TotalCount = 0
                 };
-                foreach (var component in components)
+                foreach (var component in repair.RepairComponents)
                 {
-                    if (repair.RepairComponents.ContainsKey(component.Id))
-                    {
-                        record.RepairComponents.Add(new Tuple<string, int>(component.ComponentName, 
-                            repair.RepairComponents[component.Id].Item2));
-                        record.TotalCount += repair.RepairComponents[component.Id].Item2;
-                    }
+                    record.RepairComponents.Add(new Tuple<string, int>(component.Value.Item1, component.Value.Item2));
+                    record.TotalCount += component.Value.Item2;
                 }
                 list.Add(record);
             }
