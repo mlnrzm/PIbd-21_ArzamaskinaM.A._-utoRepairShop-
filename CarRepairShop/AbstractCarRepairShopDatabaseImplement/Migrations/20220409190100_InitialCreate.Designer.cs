@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AbstractCarRepairShopDatabaseImplement.Migrations
 {
     [DbContext(typeof(AbstractCarRepairShopDatabase))]
-    [Migration("20220314201622_InitialCreate")]
+    [Migration("20220409190100_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -115,11 +115,13 @@ namespace AbstractCarRepairShopDatabaseImplement.Migrations
 
             modelBuilder.Entity("AbstractCarRepairShopDatabaseImplement.Models.Order", b =>
                 {
-                    b.HasOne("AbstractCarRepairShopDatabaseImplement.Models.Repair", null)
+                    b.HasOne("AbstractCarRepairShopDatabaseImplement.Models.Repair", "Repair")
                         .WithMany("Orders")
                         .HasForeignKey("RepairId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Repair");
                 });
 
             modelBuilder.Entity("AbstractCarRepairShopDatabaseImplement.Models.RepairComponent", b =>

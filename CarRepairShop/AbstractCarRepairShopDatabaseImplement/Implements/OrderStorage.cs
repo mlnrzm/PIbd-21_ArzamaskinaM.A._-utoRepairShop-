@@ -15,6 +15,7 @@ namespace AbstractCarRepairShopDatabaseImplement.Implements
         {
             using var context = new AbstractCarRepairShopDatabase();
             return context.Orders
+            .Include(rec => rec.Repair)
             .Select(CreateModel)
             .ToList();
         }
@@ -24,11 +25,10 @@ namespace AbstractCarRepairShopDatabaseImplement.Implements
             {
                 return null;
             }
-            using var context_ = new AbstractCarRepairShopDatabase();
-            return context_.Orders
-            .Where(rec => rec.Id.Equals(model.Id) || 
-                rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo)
-            .ToList()
+            using var context = new AbstractCarRepairShopDatabase();
+            return context.Orders
+            .Include(rec => rec.Repair)
+            .Where(rec => rec.RepairId == model.RepairId)
             .Select(CreateModel)
             .ToList();
         }
@@ -40,6 +40,7 @@ namespace AbstractCarRepairShopDatabaseImplement.Implements
             }
             using var context = new AbstractCarRepairShopDatabase();
             var order = context.Orders
+            .Include(rec => rec.Repair)
             .FirstOrDefault(rec => rec.Id == model.Id);
             return order != null ? CreateModel(order) : null;
         }
@@ -47,18 +48,9 @@ namespace AbstractCarRepairShopDatabaseImplement.Implements
         {
             using (var context = new AbstractCarRepairShopDatabase())
             {
-                Order order = new Order
-                {
-                    RepairId = model.RepairId,
-                    Count = model.Count,
-                    Sum = model.Sum,
-                    Status = model.Status,
-                    DateCreate = model.DateCreate,
-                    DateImplement = model.DateImplement,
-                };
+                Order order = new Order();
+                CreateModel(model, order, context);
                 context.Orders.Add(order);
-                context.SaveChanges();
-                CreateModel(model, order);
                 context.SaveChanges();
             }
         }
@@ -71,13 +63,7 @@ namespace AbstractCarRepairShopDatabaseImplement.Implements
                 {
                     throw new Exception("Элемент не найден");
                 }
-                element.RepairId = model.RepairId;
-                element.Count = model.Count;
-                element.Sum = model.Sum;
-                element.Status = model.Status;
-                element.DateCreate = model.DateCreate;
-                element.DateImplement = model.DateImplement;
-                CreateModel(model, element);
+                CreateModel(model, element, context);
                 context.SaveChanges();
             }
         }
@@ -97,31 +83,15 @@ namespace AbstractCarRepairShopDatabaseImplement.Implements
                 }
             }
         }
-        private Order CreateModel(OrderBindingModel model, Order order)
+        private Order CreateModel(OrderBindingModel model, Order order, AbstractCarRepairShopDatabase context_)
         {
-            if (model == null)
-            {
-                return null;
-            }
-
-            using (var context = new AbstractCarRepairShopDatabase())
-            {
-                Repair element = context.Repairs.FirstOrDefault(rec => rec.Id == model.RepairId);
-                if (element != null)
-                {
-                    if (element.Orders == null)
-                    {
-                        element.Orders = new List<Order>();
-                    }
-                    element.Orders.Add(order);
-                    context.Repairs.Update(element);
-                    context.SaveChanges();
-                }
-                else
-                {
-                    throw new Exception("Элемент не найден");
-                }
-            }
+            order.RepairId = model.RepairId;
+            order.Repair = context_.Repairs.FirstOrDefault(rec => rec.Id == model.RepairId);
+            order.Count = model.Count;
+            order.Sum = model.Sum;
+            order.Status = model.Status;
+            order.DateCreate = model.DateCreate;
+            order.DateImplement = model.DateImplement;
             return order;
         }
         private static OrderViewModel CreateModel(Order order)
@@ -131,7 +101,7 @@ namespace AbstractCarRepairShopDatabaseImplement.Implements
             {
                 Id = order.Id,
                 RepairId = order.RepairId,
-                RepairName = context.Repairs.FirstOrDefault(pr => pr.Id == order.RepairId).RepairName, 
+                RepairName = order.Repair.RepairName,
                 Count = order.Count,
                 Sum = order.Sum,
                 Status = order.Status,
