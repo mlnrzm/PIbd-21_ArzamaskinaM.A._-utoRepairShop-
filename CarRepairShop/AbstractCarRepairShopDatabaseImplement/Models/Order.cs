@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System;
 using AbstractCarRepairShopContracts.Enums;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AbstractCarRepairShopDatabaseImplement.Models
 {
@@ -8,6 +9,7 @@ namespace AbstractCarRepairShopDatabaseImplement.Models
     {
         public int Id { get; set; }
         public int RepairId { get; set; }
+        public virtual Repair Repair { get; set; }
         [Required]
         public int Count { get; set; }
         [Required]

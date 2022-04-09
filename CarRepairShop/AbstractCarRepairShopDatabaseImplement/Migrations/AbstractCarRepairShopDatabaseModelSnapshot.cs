@@ -113,7 +113,7 @@ namespace AbstractCarRepairShopDatabaseImplement.Migrations
 
             modelBuilder.Entity("AbstractCarRepairShopDatabaseImplement.Models.Order", b =>
                 {
-                    b.HasOne("AbstractCarRepairShopDatabaseImplement.Models.Repair", null)
+                    b.HasOne("AbstractCarRepairShopDatabaseImplement.Models.Repair", "Repair")
                         .WithMany("Orders")
                         .HasForeignKey("RepairId")
                         .OnDelete(DeleteBehavior.Cascade)
