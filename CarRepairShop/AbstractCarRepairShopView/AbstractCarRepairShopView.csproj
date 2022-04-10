@@ -11,14 +11,22 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="ReportViewerCore.WinForms" Version="15.1.16" />
     <PackageReference Include="Unity" Version="5.11.10" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\AbstractCarRepairShopBusinessLogic\AbstractCarRepairShopBusinessLogic.csproj" />
+    <ProjectReference Include="..\AbstractCarRepairShopContracts\AbstractCarRepairShopContracts.csproj" />
     <ProjectReference Include="..\AbstractCarRepairShopDatabaseImplement\AbstractCarRepairShopDatabaseImplement.csproj" />
     <ProjectReference Include="..\AbstractCarRepairShopFileImplement\AbstractCarRepairShopFileImplement.csproj" />
     <ProjectReference Include="..\AbstractCarRepairShopListImplement\AbstractCarRepairShopListImplement.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="ReportOrders.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
