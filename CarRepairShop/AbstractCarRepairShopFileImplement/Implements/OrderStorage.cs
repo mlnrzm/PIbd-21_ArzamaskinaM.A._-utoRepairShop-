@@ -15,24 +15,17 @@ namespace AbstractCarRepairShopFileImplement.Implements
         {
             source = FileDataListSingleton.GetInstance();
         }
-        public List<OrderViewModel> GetFullList()
+        public void Delete(OrderBindingModel model)
         {
-            var result = from order in source.Orders
-                         select CreateModel(order);
-            return result.ToList();
-        }
-        public List<OrderViewModel> GetFilteredList(OrderBindingModel model)
-        {
-            if (model == null)
+            var element = source.Orders.FirstOrDefault(rec => rec.Id == model.Id.Value);
+            if (element != null)
             {
-                return null;
+                source.Orders.Remove(element);
             }
-            var result = from order in source.Orders
-                         where order.Id == model.Id && 
-                               order.DateCreate >= model.DateFrom && 
-                               order.DateCreate <= model.DateTo
-                         select CreateModel(order);
-            return result.ToList();
+            else
+            {
+                throw new Exception("Элемент не найден");
+            }
         }
         public OrderViewModel GetElement(OrderBindingModel model)
         {
@@ -40,39 +33,45 @@ namespace AbstractCarRepairShopFileImplement.Implements
             {
                 return null;
             }
-            var result = from order in source.Orders
-                         where order.Id == model.Id
-                         select CreateModel(order);
-            return (OrderViewModel)result.FirstOrDefault();
+            var order = source.Orders.FirstOrDefault(rec => rec.RepairId == model.RepairId || rec.Id == model.Id);
+            return order != null ? CreateModel(order) : null;
+        }
+
+        public List<OrderViewModel> GetFilteredList(OrderBindingModel model)
+        {
+            if (model == null)
+            {
+                return null;
+            }
+            return source.Orders.
+                    Where(rec => rec.RepairId == model.RepairId || 
+                (rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo) || 
+                (model.ClientId.HasValue && rec.ClientId == model.ClientId.Value)).Select(CreateModel).ToList();
+        }
+
+        public List<OrderViewModel> GetFullList()
+        {
+            return source.Orders.Select(CreateModel).ToList();
         }
         public void Insert(OrderBindingModel model)
         {
-            var maxId = from order in source.Orders
-                         select order.Id;
-            var element = new Order { Id = maxId.Max() + 1 };
+            int maxId = source.Orders.Count > 0 ? source.Components.Max(rec => rec.Id) : 0;
+            var element = new Order
+            {
+                Id = maxId + 1,
+            };
             source.Orders.Add(CreateModel(model, element));
         }
         public void Update(OrderBindingModel model)
         {
-            var tempOrder = from order in source.Orders
-                            where order.Id == model.Id
-                            select order;
-            if (tempOrder == null)
+            var element = source.Orders.FirstOrDefault(rec => rec.Id == model.Id);
+            if (element == null)
             {
                 throw new Exception("Элемент не найден");
             }
-            CreateModel(model, (Order)tempOrder.FirstOrDefault()); 
+            CreateModel(model, element);
         }
-        public void Delete(OrderBindingModel model)
-        {
-            var tempOrder = from order in source.Orders
-                            where order.Id == model.Id
-                            select order;
-            if (tempOrder != null)  source.Orders.Remove((Order)tempOrder.FirstOrDefault());
-            else throw new Exception("Элемент не найден");
-            
-        }
-        private static Order CreateModel(OrderBindingModel model, Order order)
+        private Order CreateModel(OrderBindingModel model, Order order)
         {
             order.RepairId = model.RepairId;
             order.Count = model.Count;
@@ -80,22 +79,19 @@ namespace AbstractCarRepairShopFileImplement.Implements
             order.Status = model.Status;
             order.DateCreate = model.DateCreate;
             order.DateImplement = model.DateImplement;
-
+            order.ClientId = model.ClientId.Value;
             return order;
         }
         private OrderViewModel CreateModel(Order order)
         {
-            string repairName = "";
-
-            var tempOrder = from repair in source.Repairs
-                            where repair.Id == order.RepairId
-                            select repair;
-            repairName = ((Repair)tempOrder.FirstOrDefault()).RepairName;
-
+            string repairName = source.Repairs.FirstOrDefault(rec => rec.Id == order.RepairId).RepairName;
+            string ClientName = source.Clients.FirstOrDefault(rec => rec.Id == order.ClientId)?.Name;
             return new OrderViewModel
             {
                 Id = order.Id,
                 RepairId = order.RepairId,
+                ClientId = order.ClientId,
+                ClientName = ClientName,
                 RepairName = repairName,
                 Count = order.Count,
                 Sum = order.Sum,

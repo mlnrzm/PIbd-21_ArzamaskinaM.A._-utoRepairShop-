@@ -33,7 +33,11 @@ namespace AbstractCarRepairShopListImplement.Implements
             var result = new List<OrderViewModel>();
             foreach (var order in source.Orders)
             {
-                if (order.Id == model.Id && order.DateCreate >= model.DateFrom && order.DateCreate <= model.DateTo)
+                if ((!model.DateFrom.HasValue && !model.DateTo.HasValue &&
+                    order.DateCreate.Date == model.DateCreate.Date) ||
+                     (model.DateFrom.HasValue && model.DateTo.HasValue && order.DateCreate.Date
+                    >= model.DateFrom.Value.Date && order.DateCreate.Date <= model.DateTo.Value.Date) ||
+                     (model.ClientId.HasValue && order.ClientId == model.ClientId))
                 {
                     result.Add(CreateModel(order));
                 }
@@ -101,6 +105,7 @@ namespace AbstractCarRepairShopListImplement.Implements
         private static Order CreateModel(OrderBindingModel model, Order order)
         {
             order.RepairId = model.RepairId;
+            order.ClientId = (int)model.ClientId;
             order.Count = model.Count;
             order.Sum = model.Sum;
             order.Status = model.Status;
@@ -113,6 +118,16 @@ namespace AbstractCarRepairShopListImplement.Implements
         private OrderViewModel CreateModel(Order order)
         {
             string repairName = "";
+            string clientName = "";
+
+            for (int i = 0; i < source.Clients.Count; ++i)
+            {
+                if (source.Clients[i].Id == order.ClientId)
+                {
+                    clientName = source.Clients[i].Name;
+                    break;
+                }
+            }
 
             for (int i = 0; i < source.Repairs.Count; ++i)
             {
@@ -127,6 +142,8 @@ namespace AbstractCarRepairShopListImplement.Implements
             {
                 Id = order.Id,
                 RepairId = order.RepairId,
+                ClientId = order.ClientId,
+                ClientName = clientName,
                 RepairName = repairName,
                 Count = order.Count,
                 Sum = order.Sum,

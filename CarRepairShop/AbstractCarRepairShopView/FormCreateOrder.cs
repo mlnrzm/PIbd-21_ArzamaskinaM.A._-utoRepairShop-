@@ -9,11 +9,13 @@ namespace AbstractCarRepairShopView
 {
     public partial class FormCreateOrder : Form
     {
+        private readonly IClientLogic _logicC;
         private readonly IRepairLogic _logicP;
         private readonly IOrderLogic _logicO;
-        public FormCreateOrder(IRepairLogic logicP, IOrderLogic logicO)
+        public FormCreateOrder(IRepairLogic logicP, IOrderLogic logicO, IClientLogic logicC)
         {
             InitializeComponent();
+            _logicC = logicC;
             _logicP = logicP;
             _logicO = logicO;
         }
@@ -28,6 +30,15 @@ namespace AbstractCarRepairShopView
                     comboBoxRepair.ValueMember = "Id";
                     comboBoxRepair.DataSource = list;
                     comboBoxRepair.SelectedItem = null;
+                }
+
+                List<ClientViewModel> listC = _logicC.Read(null);
+                if (list != null)
+                {
+                    comboBoxClient.DisplayMember = "Name";
+                    comboBoxClient.ValueMember = "Id";
+                    comboBoxClient.DataSource = listC;
+                    comboBoxClient.SelectedItem = null;
                 }
             }
             catch (Exception ex)
@@ -80,10 +91,17 @@ namespace AbstractCarRepairShopView
                MessageBoxIcon.Error);
                 return;
             }
+            if (comboBoxClient.SelectedValue == null)
+            {
+                MessageBox.Show("Выберите клиента", "Ошибка", MessageBoxButtons.OK,
+               MessageBoxIcon.Error);
+                return;
+            }
             try
             {
                 _logicO.CreateOrder(new CreateOrderBindingModel
                 {
+                    ClientId = Convert.ToInt32(comboBoxClient.SelectedValue),
                     RepairId = Convert.ToInt32(comboBoxRepair.SelectedValue),
                     Count = Convert.ToInt32(textBoxCount.Text),
                     Sum = Convert.ToDecimal(textBoxSum.Text)

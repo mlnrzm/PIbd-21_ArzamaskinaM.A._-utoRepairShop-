@@ -43,6 +43,8 @@ namespace CarRepairShop
         {
             var currentContainer = new UnityContainer();
 
+            currentContainer.RegisterType<IClientStorage,
+            ClientStorage>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IComponentStorage,
             ComponentStorage>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IOrderStorage, OrderStorage>(new
@@ -50,6 +52,8 @@ namespace CarRepairShop
             currentContainer.RegisterType<IRepairStorage, RepairStorage>(new
             HierarchicalLifetimeManager());
 
+            currentContainer.RegisterType<IClientLogic, ClientLogic>(new
+            HierarchicalLifetimeManager());
             currentContainer.RegisterType<IComponentLogic, ComponentLogic>(new
             HierarchicalLifetimeManager());
             currentContainer.RegisterType<IOrderLogic, OrderLogic>(new

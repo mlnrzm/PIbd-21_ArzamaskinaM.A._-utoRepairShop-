@@ -28,7 +28,10 @@ namespace AbstractCarRepairShopDatabaseImplement.Implements
             using var context = new AbstractCarRepairShopDatabase();
             return context.Orders
             .Include(rec => rec.Repair)
-            .Where(rec => rec.RepairId == model.RepairId)
+            .Include(rec => rec.Client)
+            .Where(rec => rec.RepairId == model.RepairId ||
+               (model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo) ||
+               model.ClientId.HasValue && rec.ClientId == model.ClientId)
             .Select(CreateModel)
             .ToList();
         }
@@ -40,7 +43,6 @@ namespace AbstractCarRepairShopDatabaseImplement.Implements
             }
             using var context = new AbstractCarRepairShopDatabase();
             var order = context.Orders
-            .Include(rec => rec.Repair)
             .FirstOrDefault(rec => rec.Id == model.Id);
             return order != null ? CreateModel(order) : null;
         }
@@ -86,6 +88,8 @@ namespace AbstractCarRepairShopDatabaseImplement.Implements
         private Order CreateModel(OrderBindingModel model, Order order, AbstractCarRepairShopDatabase context_)
         {
             order.RepairId = model.RepairId;
+            order.ClientId = model.ClientId.Value;
+            order.Client = context_.Clients.FirstOrDefault(rec => rec.Id == model.ClientId);
             order.Repair = context_.Repairs.FirstOrDefault(rec => rec.Id == model.RepairId);
             order.Count = model.Count;
             order.Sum = model.Sum;
@@ -101,6 +105,8 @@ namespace AbstractCarRepairShopDatabaseImplement.Implements
             {
                 Id = order.Id,
                 RepairId = order.RepairId,
+                ClientId = order.ClientId,
+                ClientName = order.Client.Name,
                 RepairName = order.Repair.RepairName,
                 Count = order.Count,
                 Sum = order.Sum,

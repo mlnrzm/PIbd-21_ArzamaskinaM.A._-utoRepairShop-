@@ -7,6 +7,7 @@ namespace AbstractCarRepairShopListImplement
     public class DataListSingleton
     {
         private static DataListSingleton instance;
+        public List<Client> Clients { get; set; }
         public List<Component> Components { get; set; }
         public List<Order> Orders { get; set; }
         public List<Repair> Repairs { get; set; }
@@ -15,6 +16,7 @@ namespace AbstractCarRepairShopListImplement
             Components = new List<Component>();
             Orders = new List<Order>();
             Repairs = new List<Repair>();
+            Clients = new List<Client>();
         }
         public static DataListSingleton GetInstance()
         {

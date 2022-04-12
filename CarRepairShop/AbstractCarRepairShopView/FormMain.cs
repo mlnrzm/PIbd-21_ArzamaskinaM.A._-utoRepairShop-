@@ -20,7 +20,7 @@ namespace AbstractCarRepairShopView
             _reportLogic = reportLogic;
         }
         private void FormMain_Load(object sender, EventArgs e)
-        {
+        {            
             LoadData();
         }
         private void LoadData()
@@ -150,6 +150,12 @@ namespace AbstractCarRepairShopView
         private void списокЗаказовToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Program.Container.Resolve<FormReportOrders>();
+            form.ShowDialog();
+        }
+
+        private void клиентыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Program.Container.Resolve<FormClients>();
             form.ShowDialog();
         }
     }

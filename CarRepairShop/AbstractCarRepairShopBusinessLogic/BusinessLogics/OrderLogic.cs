@@ -34,7 +34,9 @@ namespace AbstractCarRepairShopBusinessLogic.BusinessLogics
                 RepairId = model.RepairId,
                 Count = model.Count,
                 Sum = model.Sum,
-                DateCreate = DateTime.Now
+                Status = OrderStatus.Принят,
+                DateCreate = DateTime.Now,
+                ClientId = model.ClientId
             });
         }
         public void DeliveryOrder(ChangeStatusBindingModel model)
@@ -60,7 +62,8 @@ namespace AbstractCarRepairShopBusinessLogic.BusinessLogics
                 DateCreate = element.DateCreate,
                 DateImplement = element.DateImplement,
                 Sum = element.Sum,
-                Status = element.Status
+                Status = element.Status,
+                ClientId = element.ClientId
             });
 
         }
@@ -87,7 +90,8 @@ namespace AbstractCarRepairShopBusinessLogic.BusinessLogics
                 DateCreate = element.DateCreate,
                 DateImplement = DateTime.Now,
                 Sum = element.Sum,
-                Status = element.Status
+                Status = element.Status,
+                ClientId = element.ClientId
             });
         }
         public void TakeOrderInWork(ChangeStatusBindingModel model)
@@ -113,7 +117,8 @@ namespace AbstractCarRepairShopBusinessLogic.BusinessLogics
                 DateCreate = element.DateCreate,
                 DateImplement = element.DateImplement,
                 Sum = element.Sum,
-                Status = element.Status
+                Status = element.Status,
+                ClientId = element.ClientId
             });
         }
     }
