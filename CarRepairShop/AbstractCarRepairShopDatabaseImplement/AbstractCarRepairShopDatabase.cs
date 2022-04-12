@@ -5,6 +5,11 @@ namespace AbstractCarRepairShopDatabaseImplement
 {
     public class AbstractCarRepairShopDatabase : DbContext
     {
+        public AbstractCarRepairShopDatabase()
+        {
+            //Database.EnsureDeleted(); // удаляем бд со старой схемой
+            //Database.EnsureCreated(); // создаем бд с новой схемой
+        }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (optionsBuilder.IsConfigured == false)
