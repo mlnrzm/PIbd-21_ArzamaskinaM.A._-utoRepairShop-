@@ -25,12 +25,13 @@ namespace AbstractCarRepairShopRestApi.Controllers
         public List<RepairViewModel> GetRepairList() => _repair.Read(null)?.ToList();
         [HttpGet]
         public RepairViewModel GetRepair(int repairId) => _repair.Read(new RepairBindingModel
-        { Id = repairId })?[0];
+        {
+            Id = repairId
+        })?[0];
         [HttpGet]
         public List<OrderViewModel> GetOrders(int clientId) => _order.Read(new OrderBindingModel
         { ClientId = clientId });
         [HttpPost]
-        public void CreateOrder(CreateOrderBindingModel model) =>
-       _order.CreateOrder(model);
+        public void CreateOrder(CreateOrderBindingModel model) => _order.CreateOrder(model);
     }
 }

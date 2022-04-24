@@ -20,7 +20,7 @@ namespace AbstractCarRepairShopView
             _reportLogic = reportLogic;
         }
         private void FormMain_Load(object sender, EventArgs e)
-        {            
+        {
             LoadData();
         }
         private void LoadData()
