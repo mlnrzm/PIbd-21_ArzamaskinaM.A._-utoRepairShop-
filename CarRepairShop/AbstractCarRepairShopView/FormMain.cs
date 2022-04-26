@@ -13,11 +13,16 @@ namespace AbstractCarRepairShopView
     {
         private readonly IOrderLogic _orderLogic;
         private readonly IReportLogic _reportLogic;
-        public FormMain(IOrderLogic orderLogic, IReportLogic reportLogic)
+        private readonly IImplementerLogic _implementerLogic;
+        private readonly IWorkProcess _workProcess;
+        public FormMain(IOrderLogic orderLogic, IReportLogic reportLogic,
+            IImplementerLogic implementerLogic, IWorkProcess workProcess)
         {
             InitializeComponent();
             _orderLogic = orderLogic;
             _reportLogic = reportLogic;
+            _implementerLogic = implementerLogic;
+            _workProcess = workProcess;
         }
         private void FormMain_Load(object sender, EventArgs e)
         {
@@ -32,8 +37,8 @@ namespace AbstractCarRepairShopView
                 {
                     dataGridViewOrders.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
                     dataGridViewOrders.DataSource = list;
-                    dataGridViewOrders.Columns[0].Visible = false;
-                    dataGridViewOrders.Columns[1].Visible = false;
+                    //dataGridViewOrders.Columns[0].Visible = false;
+                    //dataGridViewOrders.Columns[1].Visible = false;
                     dataGridViewOrders.Columns[2].AutoSizeMode =
                     DataGridViewAutoSizeColumnMode.Fill;
                 }
@@ -157,6 +162,18 @@ namespace AbstractCarRepairShopView
         {
             var form = Program.Container.Resolve<FormClients>();
             form.ShowDialog();
+        }
+
+        private void исполнителиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Program.Container.Resolve<FormImplementers>();
+            form.ShowDialog();
+        }
+
+        private void запускРаботToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _workProcess.DoWork(_implementerLogic, _orderLogic);
+            LoadData();
         }
     }
 }
