@@ -11,9 +11,12 @@ namespace AbstractCarRepairShopContracts.ViewModels
     {
         public int Id { get; set; }
         public int? ClientId { get; set; }
+        public int? ImplementerId { get; set; }
         public int RepairId { get; set; }
         [DisplayName("Клиент")]
         public string ClientName { get; set; }
+        [DisplayName("Исполнитель")]
+        public string ImplementerName { get; set; }
         [DisplayName("Ремонт")]
         public string RepairName { get; set; }
         [DisplayName("Количество")]

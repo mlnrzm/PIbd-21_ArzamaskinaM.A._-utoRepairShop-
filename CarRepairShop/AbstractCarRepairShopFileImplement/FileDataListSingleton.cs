@@ -12,10 +12,12 @@ namespace AbstractCarRepairShopFileImplement
     {
         private static FileDataListSingleton instance;
         private readonly string ClientFileName = "Client.xml";
+        private readonly string ImplementerFileName = "Implementer.xml";
         private readonly string ComponentFileName = "Component.xml";
         private readonly string OrderFileName = "Order.xml";
         private readonly string RepairFileName = "Repair.xml";
         public List<Client> Clients { get; set; }
+        public List<Implementer> Implementers { get; set; }
         public List<Component> Components { get; set; }
         public List<Order> Orders { get; set; }
         public List<Repair> Repairs { get; set; }
@@ -25,6 +27,7 @@ namespace AbstractCarRepairShopFileImplement
             Orders = LoadOrders();
             Repairs = LoadRepairs();
             Clients = LoadClients();
+            Implementers = LoadImplementers();
         }
         public static FileDataListSingleton GetInstance()
         {
@@ -40,6 +43,7 @@ namespace AbstractCarRepairShopFileImplement
             SaveOrders();
             SaveRepairs();
             SaveClients();
+            SaveImplementers();
         }
         private List<Client> LoadClients()
         {
@@ -56,6 +60,26 @@ namespace AbstractCarRepairShopFileImplement
                         Name = elem.Element("Name").Value,
                         Login = elem.Element("Login").Value,
                         Password = elem.Element("Password").Value
+                    });
+                }
+            }
+            return list;
+        }
+        private List<Implementer> LoadImplementers()
+        {
+            var list = new List<Implementer>();
+            if (File.Exists(ImplementerFileName))
+            {
+                var xDocument = XDocument.Load(ImplementerFileName);
+                var xElements = xDocument.Root.Elements("Implementer").ToList();
+                foreach (var elem in xElements)
+                {
+                    list.Add(new Implementer
+                    {
+                        Id = Convert.ToInt32(elem.Attribute("Id").Value),
+                        Name = elem.Element("Name").Value,
+                        WorkingTime = Convert.ToInt32(elem.Element("WorkingTime").Value),
+                        PauseTime = Convert.ToInt32(elem.Element("PauseTime").Value)
                     });
                 }
             }
@@ -90,15 +114,19 @@ namespace AbstractCarRepairShopFileImplement
                 {
                     DateTime dt = default;
                     int? client_id = null;
+                    int? implementer_id = null;
                     if (elem.Element("DateImplement").Value != "")
                         dt = Convert.ToDateTime(elem.Element("DateImplement").Value);
                     if (elem.Element("ClientId").Value != "")
                         client_id = Convert.ToInt32(elem.Element("ClientId").Value);
+                    if (elem.Element("ImplementerId").Value != "")
+                        implementer_id = Convert.ToInt32(elem.Element("ImplementerId").Value);
 
                     list.Add(new Order
                     {
                         Id = Convert.ToInt32(elem.Attribute("Id").Value),
                         ClientId = (int)client_id,
+                        ImplementerId = (int)implementer_id,
                         RepairId = Convert.ToInt32(elem.Element("RepairId").Value),
                         Count = Convert.ToInt32(elem.Element("Count").Value),
                         Sum = Convert.ToDecimal(elem.Element("Sum").Value),
@@ -136,6 +164,23 @@ namespace AbstractCarRepairShopFileImplement
                 }
             }
             return list;
+        }
+        private void SaveImplementers()
+        {
+            if (Implementers != null)
+            {
+                var xElement = new XElement("Implementers");
+                foreach (var implementer in Implementers)
+                {
+                    xElement.Add(new XElement("Implementer",
+                    new XAttribute("Id", implementer.Id),
+                    new XElement("Name", implementer.Name)),
+                    new XElement("WorkingTime", implementer.WorkingTime),
+                    new XElement("PauseTime", implementer.PauseTime));
+                }
+                var xDocument = new XDocument(xElement);
+                xDocument.Save(ImplementerFileName);
+            }
         }
         private void SaveClients()
         {
@@ -180,6 +225,7 @@ namespace AbstractCarRepairShopFileImplement
                     new XAttribute("Id", order.Id),
                     new XElement("RepairId", order.RepairId),
                     new XElement("ClientId", order.ClientId),
+                    new XElement("ImplementerId", order.ImplementerId),
                     new XElement("Count", order.Count),
                     new XElement("Sum", order.Sum),
                     new XElement("Status", order.Status),

@@ -37,7 +37,9 @@ namespace AbstractCarRepairShopListImplement.Implements
                     order.DateCreate.Date == model.DateCreate.Date) ||
                      (model.DateFrom.HasValue && model.DateTo.HasValue && order.DateCreate.Date
                     >= model.DateFrom.Value.Date && order.DateCreate.Date <= model.DateTo.Value.Date) ||
-                     (model.ClientId.HasValue && order.ClientId == model.ClientId))
+                     (model.ClientId.HasValue && order.ClientId == model.ClientId) ||
+                    (model.SearchStatus.HasValue && model.SearchStatus.Value == order.Status) ||
+                    (model.ImplementerId.HasValue && order.ImplementerId == model.ImplementerId && model.Status == order.Status))
                 {
                     result.Add(CreateModel(order));
                 }
@@ -106,6 +108,7 @@ namespace AbstractCarRepairShopListImplement.Implements
         {
             order.RepairId = model.RepairId;
             order.ClientId = (int)model.ClientId;
+            order.ImplementerId = (int)model.ImplementerId;
             order.Count = model.Count;
             order.Sum = model.Sum;
             order.Status = model.Status;
@@ -119,6 +122,16 @@ namespace AbstractCarRepairShopListImplement.Implements
         {
             string repairName = "";
             string clientName = "";
+            string implementerName = "";
+
+            for (int i = 0; i < source.Implementers.Count; ++i)
+            {
+                if (source.Implementers[i].Id == order.ImplementerId)
+                {
+                    implementerName = source.Implementers[i].Name;
+                    break;
+                }
+            }
 
             for (int i = 0; i < source.Clients.Count; ++i)
             {
@@ -143,6 +156,8 @@ namespace AbstractCarRepairShopListImplement.Implements
                 Id = order.Id,
                 RepairId = order.RepairId,
                 ClientId = order.ClientId,
+                ImplementerId = order.ImplementerId,
+                ImplementerName = implementerName,
                 ClientName = clientName,
                 RepairName = repairName,
                 Count = order.Count,

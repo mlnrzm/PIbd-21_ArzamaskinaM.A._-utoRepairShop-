@@ -46,7 +46,11 @@ namespace AbstractCarRepairShopFileImplement.Implements
             return source.Orders.
                     Where(rec => rec.RepairId == model.RepairId || 
                 (rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo) || 
-                (model.ClientId.HasValue && rec.ClientId == model.ClientId.Value)).Select(CreateModel).ToList();
+                (model.ClientId.HasValue && rec.ClientId == model.ClientId.Value) ||
+                (model.SearchStatus.HasValue && model.SearchStatus.Value == rec.Status) ||
+                (model.ImplementerId.HasValue && rec.ImplementerId == model.ImplementerId && model.Status == rec.Status))
+                .Select(CreateModel)
+                .ToList();
         }
 
         public List<OrderViewModel> GetFullList()
@@ -75,6 +79,7 @@ namespace AbstractCarRepairShopFileImplement.Implements
         {
             order.RepairId = model.RepairId;
             order.Count = model.Count;
+            order.ImplementerId = model.ImplementerId.Value;
             order.Sum = model.Sum;
             order.Status = model.Status;
             order.DateCreate = model.DateCreate;
@@ -86,12 +91,15 @@ namespace AbstractCarRepairShopFileImplement.Implements
         {
             string repairName = source.Repairs.FirstOrDefault(rec => rec.Id == order.RepairId).RepairName;
             string ClientName = source.Clients.FirstOrDefault(rec => rec.Id == order.ClientId)?.Name;
+            string ImplementerName = source.Implementers.FirstOrDefault(rec => rec.Id == order.ImplementerId)?.Name;
             return new OrderViewModel
             {
                 Id = order.Id,
                 RepairId = order.RepairId,
                 ClientId = order.ClientId,
+                ImplementerId = order.ImplementerId,
                 ClientName = ClientName,
+                ImplementerName = ImplementerName,
                 RepairName = repairName,
                 Count = order.Count,
                 Sum = order.Sum,

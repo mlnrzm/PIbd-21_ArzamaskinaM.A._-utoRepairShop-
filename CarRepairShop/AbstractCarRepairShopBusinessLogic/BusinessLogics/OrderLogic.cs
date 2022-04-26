@@ -63,7 +63,8 @@ namespace AbstractCarRepairShopBusinessLogic.BusinessLogics
                 DateImplement = element.DateImplement,
                 Sum = element.Sum,
                 Status = element.Status,
-                ClientId = element.ClientId
+                ClientId = element.ClientId,
+                ImplementerId = element.ImplementerId
             });
 
         }
@@ -91,7 +92,8 @@ namespace AbstractCarRepairShopBusinessLogic.BusinessLogics
                 DateImplement = DateTime.Now,
                 Sum = element.Sum,
                 Status = element.Status,
-                ClientId = element.ClientId
+                ClientId = element.ClientId,
+                ImplementerId = element.ImplementerId
             });
         }
         public void TakeOrderInWork(ChangeStatusBindingModel model)
@@ -118,7 +120,8 @@ namespace AbstractCarRepairShopBusinessLogic.BusinessLogics
                 DateImplement = element.DateImplement,
                 Sum = element.Sum,
                 Status = element.Status,
-                ClientId = element.ClientId
+                ClientId = element.ClientId,
+                ImplementerId = element.ImplementerId
             });
         }
     }
