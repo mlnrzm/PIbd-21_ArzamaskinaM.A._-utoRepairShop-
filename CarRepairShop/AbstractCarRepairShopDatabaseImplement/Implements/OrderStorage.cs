@@ -100,20 +100,24 @@ namespace AbstractCarRepairShopDatabaseImplement.Implements
         }
         private static OrderViewModel CreateModel(Order order)
         {
-            using var context = new AbstractCarRepairShopDatabase();
-            return new OrderViewModel
+
+            using (var context = new AbstractCarRepairShopDatabase())
             {
-                Id = order.Id,
-                RepairId = order.RepairId,
-                ClientId = order.ClientId,
-                ClientName = order.Client.Name,
-                RepairName = order.Repair.RepairName,
-                Count = order.Count,
-                Sum = order.Sum,
-                Status = order.Status,
-                DateCreate = order.DateCreate,
-                DateImplement = order.DateImplement,
-            };
+                string ClientName = context.Clients.FirstOrDefault(rec => rec.Id == order.ClientId)?.Name;
+                return new OrderViewModel
+                {
+                    Id = order.Id,
+                    RepairId = order.RepairId,
+                    ClientId = order.ClientId,
+                    ClientName = ClientName,
+                    RepairName = order.Repair.RepairName,
+                    Count = order.Count,
+                    Sum = order.Sum,
+                    Status = order.Status,
+                    DateCreate = order.DateCreate,
+                    DateImplement = order.DateImplement,
+                };
+            }
         }
     }
 }
