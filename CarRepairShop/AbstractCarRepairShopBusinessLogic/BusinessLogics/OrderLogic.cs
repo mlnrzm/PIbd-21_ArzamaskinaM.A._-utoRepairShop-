@@ -51,20 +51,22 @@ namespace AbstractCarRepairShopBusinessLogic.BusinessLogics
                 throw new Exception("Заказ не найден");
             }
 
-            if (element.Status == OrderStatus.Готов) { element.Status = OrderStatus.Выдан; }
-            else throw new Exception("Заказ не готов к выдаче или уже выдан");
+            if (element.Status != OrderStatus.Готов)
+            {
+                throw new Exception($"Невозможно выдать заказ, т.к. он не имеет статуса {OrderStatus.Готов}");
+            }
 
             _orderStorage.Update(new OrderBindingModel
             {
                 Id = element.Id,
                 RepairId = element.RepairId,
+                ClientId = element.ClientId,
+                ImplementerId = model.ImplementerId,
                 Count = element.Count,
+                Sum = element.Sum,
                 DateCreate = element.DateCreate,
                 DateImplement = element.DateImplement,
-                Sum = element.Sum,
-                Status = element.Status,
-                ClientId = element.ClientId,
-                ImplementerId = element.ImplementerId
+                Status = element.Status
             });
 
         }
@@ -80,20 +82,22 @@ namespace AbstractCarRepairShopBusinessLogic.BusinessLogics
                 throw new Exception("Заказ не найден");
             }
 
-            if (element.Status == OrderStatus.Выполняется) { element.Status = OrderStatus.Готов; }
-            else throw new Exception("Заказ не может быть готов");
+            if (element.Status != OrderStatus.Выполняется)
+            {
+                throw new Exception($"Невозможно завершить заказ, т.к. он не имеет статуса {OrderStatus.Выполняется}");
+            }
 
             _orderStorage.Update(new OrderBindingModel
             {
                 Id = element.Id,
                 RepairId = element.RepairId,
+                ClientId = element.ClientId,
+                ImplementerId = model.ImplementerId,
                 Count = element.Count,
+                Sum = element.Sum,
                 DateCreate = element.DateCreate,
                 DateImplement = DateTime.Now,
-                Sum = element.Sum,
-                Status = element.Status,
-                ClientId = element.ClientId,
-                ImplementerId = element.ImplementerId
+                Status = OrderStatus.Готов
             });
         }
         public void TakeOrderInWork(ChangeStatusBindingModel model)
@@ -108,8 +112,10 @@ namespace AbstractCarRepairShopBusinessLogic.BusinessLogics
                 throw new Exception("Заказ не найден");
             }
 
-            if (element.Status == OrderStatus.Принят) { element.Status = OrderStatus.Выполняется; }
-            else throw new Exception("Невозможно начать выполнение заказа");
+            if (element.Status != OrderStatus.Принят)
+            {
+                throw new Exception($"Невозможно обработать заказ, т.к. он не имеет статуса {OrderStatus.Принят}");
+            }
 
             _orderStorage.Update(new OrderBindingModel
             {
@@ -119,9 +125,9 @@ namespace AbstractCarRepairShopBusinessLogic.BusinessLogics
                 DateCreate = element.DateCreate,
                 DateImplement = element.DateImplement,
                 Sum = element.Sum,
-                Status = element.Status,
+                Status = OrderStatus.Выполняется,
                 ClientId = element.ClientId,
-                ImplementerId = element.ImplementerId
+                ImplementerId = model.ImplementerId
             });
         }
     }

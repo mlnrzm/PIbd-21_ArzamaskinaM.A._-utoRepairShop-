@@ -28,7 +28,6 @@ namespace AbstractCarRepairShopFileImplement.Implements
                 return null;
             }
             return source.Implementers
-            .Where(rec => rec.Name.Contains(model.Name))
            .Select(CreateModel)
            .ToList();
         }

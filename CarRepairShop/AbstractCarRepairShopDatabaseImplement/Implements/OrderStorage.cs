@@ -15,9 +15,12 @@ namespace AbstractCarRepairShopDatabaseImplement.Implements
         {
             using var context = new AbstractCarRepairShopDatabase();
             return context.Orders
-            .Include(rec => rec.Repair)
-            .Select(CreateModel)
-            .ToList();
+                .Include(rec => rec.Repair)
+                .Include(rec => rec.Client)
+                .Include(rec => rec.Implementer)
+                .ToList()
+                .Select(CreateModel)
+                .ToList();
         }
         public List<OrderViewModel> GetFilteredList(OrderBindingModel model)
         {
@@ -27,13 +30,17 @@ namespace AbstractCarRepairShopDatabaseImplement.Implements
             }
             using var context = new AbstractCarRepairShopDatabase();
             return context.Orders
-            .Include(rec => rec.Repair)
-            .Include(rec => rec.Client)
-            .Where(rec => rec.RepairId == model.RepairId ||
-               (model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo) ||
-               model.ClientId.HasValue && rec.ClientId == model.ClientId)
-            .Select(CreateModel)
-            .ToList();
+                .Where(rec => (!model.DateFrom.HasValue && !model.DateTo.HasValue
+                    && rec.DateCreate.Date == model.DateCreate.Date) ||
+                    (model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate.Date >= model.DateFrom.Value.Date
+                    && rec.DateCreate.Date <= model.DateTo.Value.Date) ||
+                    (model.ClientId.HasValue && rec.ClientId == model.ClientId) ||
+                    (model.ImplementerId.HasValue && rec.ImplementerId == model.ImplementerId) ||
+                    (model.SearchStatus.HasValue && model.SearchStatus.Value == rec.Status))
+                .Include(rec => rec.Repair)
+                .Include(rec => rec.Client)
+                .Include(rec => rec.Implementer)
+                .Select(CreateModel).ToList();
         }
         public OrderViewModel GetElement(OrderBindingModel model)
         {
@@ -43,22 +50,35 @@ namespace AbstractCarRepairShopDatabaseImplement.Implements
             }
             using var context = new AbstractCarRepairShopDatabase();
             var order = context.Orders
+            .Include(rec => rec.Repair)
+            .Include(rec => rec.Client)
+            .Include(rec => rec.Implementer)
             .FirstOrDefault(rec => rec.Id == model.Id);
             return order != null ? CreateModel(order) : null;
         }
         public void Insert(OrderBindingModel model)
         {
-            using (var context = new AbstractCarRepairShopDatabase())
+            using var context = new AbstractCarRepairShopDatabase();
+            using var transaction = context.Database.BeginTransaction();
+            try
             {
                 Order order = new Order();
                 CreateModel(model, order, context);
                 context.Orders.Add(order);
                 context.SaveChanges();
+                transaction.Commit();
+            }
+            catch
+            {
+                transaction.Rollback();
+                throw;
             }
         }
         public void Update(OrderBindingModel model)
         {
-            using (var context = new AbstractCarRepairShopDatabase())
+            using var context = new AbstractCarRepairShopDatabase();
+            using var transaction = context.Database.BeginTransaction();
+            try
             {
                 var element = context.Orders.FirstOrDefault(rec => rec.Id == model.Id);
                 if (element == null)
@@ -67,6 +87,12 @@ namespace AbstractCarRepairShopDatabaseImplement.Implements
                 }
                 CreateModel(model, element, context);
                 context.SaveChanges();
+                transaction.Commit();
+            }
+            catch
+            {
+                transaction.Rollback();
+                throw;
             }
         }
         public void Delete(OrderBindingModel model)
@@ -87,6 +113,12 @@ namespace AbstractCarRepairShopDatabaseImplement.Implements
         }
         private Order CreateModel(OrderBindingModel model, Order order, AbstractCarRepairShopDatabase context_)
         {
+            if (model.ImplementerId != null)
+            {
+                order.Implementer = context_.Implementers.FirstOrDefault(rec => rec.Id == model.ImplementerId);
+                order.ImplementerId = model.ImplementerId.Value;
+            }
+
             order.RepairId = model.RepairId;
             order.ClientId = model.ClientId.Value;
             order.Client = context_.Clients.FirstOrDefault(rec => rec.Id == model.ClientId);
@@ -100,20 +132,31 @@ namespace AbstractCarRepairShopDatabaseImplement.Implements
         }
         private static OrderViewModel CreateModel(Order order)
         {
-            using var context = new AbstractCarRepairShopDatabase();
-            return new OrderViewModel
+            using (var context = new AbstractCarRepairShopDatabase())
             {
-                Id = order.Id,
-                RepairId = order.RepairId,
-                ClientId = order.ClientId,
-                ClientName = order.Client.Name,
-                RepairName = order.Repair.RepairName,
-                Count = order.Count,
-                Sum = order.Sum,
-                Status = order.Status,
-                DateCreate = order.DateCreate,
-                DateImplement = order.DateImplement,
-            };
+                string ImplementerName = "";
+                if (order.Implementer != null)
+                    ImplementerName = order.Implementer.Name;
+
+                string repairName = context.Repairs.FirstOrDefault(rec => rec.Id == order.RepairId).RepairName;
+                string ClientName = context.Clients.FirstOrDefault(rec => rec.Id == order.ClientId)?.Name;
+                
+                return new OrderViewModel
+                {
+                    Id = order.Id,
+                    RepairId = order.RepairId,
+                    RepairName = repairName,
+                    ClientId = order.ClientId,
+                    ClientName = ClientName,
+                    ImplementerId = order.ImplementerId,
+                    ImplementerName = ImplementerName,
+                    Count = order.Count,
+                    Sum = order.Sum,
+                    Status = order.Status,
+                    DateCreate = order.DateCreate,
+                    DateImplement = order.DateImplement,
+                };
+            }
         }
     }
 }

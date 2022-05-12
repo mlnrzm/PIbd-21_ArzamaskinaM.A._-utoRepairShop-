@@ -34,6 +34,7 @@ namespace AbstractCarRepairShopView
                 var list = logic.Read(null);
                 if (list != null)
                 {
+                    dataGridViewImplementers.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
                     dataGridViewImplementers.DataSource = list;
                     dataGridViewImplementers.Columns[0].Visible = false;
                     dataGridViewImplementers.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
