@@ -5,15 +5,20 @@ using AbstractCarRepairShopContracts.ViewModels;
 using AbstractCarRepairShopContracts.Enums;
 using System;
 using System.Collections.Generic;
+using AbstractCarRepairShopBusinessLogic.MailWorker;
 
 namespace AbstractCarRepairShopBusinessLogic.BusinessLogics
 {
     public class OrderLogic : IOrderLogic
     {
         private readonly IOrderStorage _orderStorage;
-        public OrderLogic(IOrderStorage orderStorage)
+        private readonly AbstractMailWorker _mailWorker;
+        private readonly IClientStorage _clientStorage;
+        public OrderLogic(IOrderStorage orderStorage, AbstractMailWorker mailWorker, IClientStorage clientStorage)
         {
             _orderStorage = orderStorage;
+            _mailWorker = mailWorker;
+            _clientStorage = clientStorage;
         }
         public List<OrderViewModel> Read(OrderBindingModel model)
         {
@@ -37,6 +42,12 @@ namespace AbstractCarRepairShopBusinessLogic.BusinessLogics
                 Status = OrderStatus.Принят,
                 DateCreate = DateTime.Now,
                 ClientId = model.ClientId
+            });
+            _mailWorker.MailSendAsync(new MailSendInfoBindingModel
+            {
+                MailAddress = _clientStorage.GetElement(new ClientBindingModel { Id = model.ClientId })?.Login,
+                Subject = "Создан новый заказ",
+                Text = $"Дата заказа: {DateTime.Now}, сумма заказа: {model.Sum}"
             });
         }
         public void DeliveryOrder(ChangeStatusBindingModel model)
@@ -67,6 +78,12 @@ namespace AbstractCarRepairShopBusinessLogic.BusinessLogics
                 DateCreate = element.DateCreate,
                 DateImplement = element.DateImplement,
                 Status = element.Status
+            });
+            _mailWorker.MailSendAsync(new MailSendInfoBindingModel
+            {
+                MailAddress = _clientStorage.GetElement(new ClientBindingModel { Id = element.ClientId })?.Login,
+                Subject = $"Смена статуса заказа№ {element.Id}",
+                Text = $"Статус изменен на: {OrderStatus.Выдан}"
             });
 
         }
@@ -99,6 +116,12 @@ namespace AbstractCarRepairShopBusinessLogic.BusinessLogics
                 DateImplement = DateTime.Now,
                 Status = OrderStatus.Готов
             });
+            _mailWorker.MailSendAsync(new MailSendInfoBindingModel
+            {
+                MailAddress = _clientStorage.GetElement(new ClientBindingModel { Id = element.ClientId })?.Login,
+                Subject = $"Смена статуса заказа№ {element.Id}",
+                Text = $"Статус изменен на: {OrderStatus.Готов}"
+            });
         }
         public void TakeOrderInWork(ChangeStatusBindingModel model)
         {
@@ -128,6 +151,12 @@ namespace AbstractCarRepairShopBusinessLogic.BusinessLogics
                 Status = OrderStatus.Выполняется,
                 ClientId = element.ClientId,
                 ImplementerId = model.ImplementerId
+            });
+            _mailWorker.MailSendAsync(new MailSendInfoBindingModel
+            {
+                MailAddress = _clientStorage.GetElement(new ClientBindingModel { Id = element.ClientId })?.Login,
+                Subject = $"Смена статуса заказа№ {element.Id}",
+                Text = $"Статус изменен на: {OrderStatus.Выполняется}"
             });
         }
     }

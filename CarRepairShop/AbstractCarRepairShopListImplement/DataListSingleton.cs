@@ -12,6 +12,7 @@ namespace AbstractCarRepairShopListImplement
         public List<Component> Components { get; set; }
         public List<Order> Orders { get; set; }
         public List<Repair> Repairs { get; set; }
+        public List<MessageInfo> Messages { get; set; }
         private DataListSingleton()
         {
             Components = new List<Component>();
@@ -19,6 +20,7 @@ namespace AbstractCarRepairShopListImplement
             Repairs = new List<Repair>();
             Clients = new List<Client>();
             Implementers = new List<Implementer>();
+            Messages = new List<MessageInfo>();
         }
         public static DataListSingleton GetInstance()
         {

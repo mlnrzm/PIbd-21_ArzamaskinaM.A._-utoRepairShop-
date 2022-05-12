@@ -20,7 +20,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AbstractCarRepairShopDataba
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AbstractCarRepairShopRestApi", "AbstractCarRepairShopRestApi\AbstractCarRepairShopRestApi.csproj", "{29A05CF3-E1B1-4E2E-AB13-D5D49075CEBF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbstractCarRepairShowClientApp", "AbstractCarRepairShowClientApp\AbstractCarRepairShowClientApp.csproj", "{E13C1571-A77E-465B-AF35-52E49110F1BF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AbstractCarRepairShowClientApp", "AbstractCarRepairShowClientApp\AbstractCarRepairShowClientApp.csproj", "{E13C1571-A77E-465B-AF35-52E49110F1BF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

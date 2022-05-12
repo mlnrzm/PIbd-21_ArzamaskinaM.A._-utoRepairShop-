@@ -26,7 +26,12 @@ namespace AbstractCarRepairShopView
         }
         private void FormMain_Load(object sender, EventArgs e)
         {
-            LoadData();
+            using (var context = new AbstractCarRepairShopDatabase())
+            {
+                context.Orders.RemoveRange(context.Orders);
+                context.SaveChanges();
+            }
+                LoadData();
         }
         private void LoadData()
         {
@@ -136,6 +141,12 @@ namespace AbstractCarRepairShopView
         {
             _workProcess.DoWork(_implementerLogic, _orderLogic);
             LoadData();
+        }
+
+        private void почтаToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Program.Container.Resolve<FormMessages>();
+            form.ShowDialog();
         }
     }
 }

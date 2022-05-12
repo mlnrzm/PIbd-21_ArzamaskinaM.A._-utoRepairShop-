@@ -15,9 +15,11 @@ namespace AbstractCarRepairShopRestApi.Controllers
     public class ClientController : ControllerBase
     {
         private readonly IClientLogic _logic;
-        public ClientController(IClientLogic logic)
+        private readonly IMessageInfoLogic _messageLogic;
+        public ClientController(IClientLogic logic, IMessageInfoLogic messageLogic)
         {
             _logic = logic;
+            _messageLogic = messageLogic;
         }
         [HttpGet]
         public ClientViewModel Login(string login, string password)
@@ -30,11 +32,11 @@ namespace AbstractCarRepairShopRestApi.Controllers
             return (list != null && list.Count > 0) ? list[0] : null;
         }
         [HttpPost]
-        public void Register(ClientBindingModel model) =>
-        _logic.CreateOrUpdate(model);
+        public void Register(ClientBindingModel model) => _logic.CreateOrUpdate(model);
         [HttpPost]
-        public void UpdateData(ClientBindingModel model) =>
-        _logic.CreateOrUpdate(model);
+        public void UpdateData(ClientBindingModel model) => _logic.CreateOrUpdate(model);
+        [HttpGet]
+        public List<MessageInfoViewModel> GetClientsMessagesInfo(int clientId) => _messageLogic.Read(new MessageInfoBindingModel { ClientId = clientId });
 
     }
 }
