@@ -111,7 +111,7 @@ namespace AbstractCarRepairShopView
             this.ClientSize = new System.Drawing.Size(1070, 611);
             this.Controls.Add(this.panel);
             this.Name = "FormReportOrders";
-            this.Text = "FormReportOrders";
+            this.Text = "Отчет по заказам";
             this.panel.ResumeLayout(false);
             this.panel.PerformLayout();
             this.ResumeLayout(false);
