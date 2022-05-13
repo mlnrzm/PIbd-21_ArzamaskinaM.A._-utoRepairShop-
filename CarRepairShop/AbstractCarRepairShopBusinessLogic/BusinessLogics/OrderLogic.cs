@@ -66,7 +66,7 @@ namespace AbstractCarRepairShopBusinessLogic.BusinessLogics
                 Sum = element.Sum,
                 DateCreate = element.DateCreate,
                 DateImplement = element.DateImplement,
-                Status = element.Status
+                Status = OrderStatus.Выдан
             });
 
         }

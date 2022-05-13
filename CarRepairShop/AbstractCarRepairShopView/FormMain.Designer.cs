@@ -45,6 +45,7 @@ namespace AbstractCarRepairShopView
             this.dataGridViewOrders = new System.Windows.Forms.DataGridView();
             this.buttonCreateOrder = new System.Windows.Forms.Button();
             this.buttonRef = new System.Windows.Forms.Button();
+            this.buttonIssue = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewOrders)).BeginInit();
             this.SuspendLayout();
@@ -176,11 +177,22 @@ namespace AbstractCarRepairShopView
             this.buttonRef.UseVisualStyleBackColor = true;
             this.buttonRef.Click += new System.EventHandler(this.buttonRef_Click);
             // 
+            // buttonIssue
+            // 
+            this.buttonIssue.Location = new System.Drawing.Point(901, 178);
+            this.buttonIssue.Name = "buttonIssue";
+            this.buttonIssue.Size = new System.Drawing.Size(235, 34);
+            this.buttonIssue.TabIndex = 8;
+            this.buttonIssue.Text = "Выдан";
+            this.buttonIssue.UseVisualStyleBackColor = true;
+            this.buttonIssue.Click += new System.EventHandler(this.buttonIssue_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1158, 588);
+            this.Controls.Add(this.buttonIssue);
             this.Controls.Add(this.buttonRef);
             this.Controls.Add(this.buttonCreateOrder);
             this.Controls.Add(this.dataGridViewOrders);
@@ -214,5 +226,6 @@ namespace AbstractCarRepairShopView
         private System.Windows.Forms.ToolStripMenuItem клиентыToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem исполнителиToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem запускРаботToolStripMenuItem;
+        private System.Windows.Forms.Button buttonIssue;
     }
 }

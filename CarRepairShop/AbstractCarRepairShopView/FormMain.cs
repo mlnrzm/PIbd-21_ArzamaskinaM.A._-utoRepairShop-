@@ -137,5 +137,22 @@ namespace AbstractCarRepairShopView
             _workProcess.DoWork(_implementerLogic, _orderLogic);
             LoadData();
         }
+
+        private void buttonIssue_Click(object sender, EventArgs e)
+        {
+                if (dataGridViewOrders.SelectedRows.Count == 1)
+                {
+                    int id = Convert.ToInt32(dataGridViewOrders.SelectedRows[0].Cells[0].Value);
+                    try
+                    {
+                        _orderLogic.DeliveryOrder(new ChangeStatusBindingModel { OrderId = id });
+                        LoadData();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+        }
     }
 }
