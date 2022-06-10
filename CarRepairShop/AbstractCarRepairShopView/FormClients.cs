@@ -2,7 +2,6 @@
 using AbstractCarRepairShopContracts.BusinessLogicsContracts;
 using System;
 using System.Windows.Forms;
-using Unity;
 using CarRepairShop;
 
 namespace AbstractCarRepairShopView
@@ -23,20 +22,13 @@ namespace AbstractCarRepairShopView
         {
             try
             {
-                var list = _logic.Read(null);
-                if (list != null)
-                {
-                    dataGridViewClients.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-                    dataGridViewClients.DataSource = list;
-                    dataGridViewClients.Columns[1].AutoSizeMode =
-                    DataGridViewAutoSizeColumnMode.Fill;
-                }
+                Program.ConfigGrid(_logic.Read(null), dataGridViewClients);
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
                MessageBoxIcon.Error);
-            }
+            }  
         }
 
         private void buttonDel_Click(object sender, EventArgs e)

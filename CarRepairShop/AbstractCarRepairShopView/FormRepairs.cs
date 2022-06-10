@@ -23,16 +23,7 @@ namespace AbstractCarRepairShopView
         {
             try
             {
-                var list = _logic.Read(null);
-                if (list != null)
-                {
-                    dataGridViewRepairs.DataSource = list;
-                    dataGridViewRepairs.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-                    dataGridViewRepairs.Columns[0].Visible = false;
-                    dataGridViewRepairs.Columns[3].Visible = false;
-                    dataGridViewRepairs.Columns[1].AutoSizeMode =
-                    DataGridViewAutoSizeColumnMode.Fill;
-                }
+                Program.ConfigGrid(_logic.Read(null), dataGridViewRepairs);
             }
             catch (Exception ex)
             {

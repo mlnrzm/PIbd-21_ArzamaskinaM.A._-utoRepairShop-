@@ -1,5 +1,6 @@
 ﻿using AbstractCarRepairShopContracts.BindingModels;
 using AbstractCarRepairShopContracts.BusinessLogicsContracts;
+using AbstractCarRepairShopContracts.StoragesContracts;
 using MailKit.Net.Pop3;
 using MailKit.Security;
 using System;
@@ -13,7 +14,11 @@ namespace AbstractCarRepairShopBusinessLogic.MailWorker
 {
     public class MailKitWorker : AbstractMailWorker
     {
-        public MailKitWorker(IMessageInfoLogic messageInfoLogic) : base(messageInfoLogic) { }
+        private IClientStorage _clientStorage;
+        public MailKitWorker(IMessageInfoLogic messageInfoLogic, IClientStorage clientStorage) : base(messageInfoLogic)
+        {
+            _clientStorage = clientStorage;
+        }
         protected override async Task SendMailAsync(MailSendInfoBindingModel info)
         {
             using var objMailMessage = new MailMessage();
@@ -39,6 +44,7 @@ namespace AbstractCarRepairShopBusinessLogic.MailWorker
         }
         protected override async Task<List<MessageInfoBindingModel>> ReceiveMailAsync()
         {
+            
             var list = new List<MessageInfoBindingModel>();
             using var client = new Pop3Client();
             await Task.Run(() =>
@@ -54,6 +60,10 @@ namespace AbstractCarRepairShopBusinessLogic.MailWorker
                         {
                             list.Add(new MessageInfoBindingModel
                             {
+                                ClientId = _clientStorage.GetElement(new ClientBindingModel
+                                {
+                                    Login = mail.Address
+                                })?.Id,
                                 DateDelivery = message.Date.DateTime,
                                 MessageId = message.MessageId,
                                 FromMailAddress = mail.Address,
@@ -68,7 +78,7 @@ namespace AbstractCarRepairShopBusinessLogic.MailWorker
                     client.Disconnect(true);
                 }
             });
-            return list;
+            return list; 
         }
     }
 }
