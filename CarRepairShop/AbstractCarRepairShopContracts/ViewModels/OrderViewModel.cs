@@ -1,6 +1,7 @@
 ﻿using System;
-using System.ComponentModel;
 using AbstractCarRepairShopContracts.Enums;
+using AbstractCarRepairShopContracts.Attributes;
+using System.Runtime.Serialization;
 
 namespace AbstractCarRepairShopContracts.ViewModels
 {
@@ -9,25 +10,27 @@ namespace AbstractCarRepairShopContracts.ViewModels
     /// </summary>
     public class OrderViewModel
     {
+        [Column(title: "Номер", width: 50, visible: false)]
         public int Id { get; set; }
         public int? ClientId { get; set; }
         public int? ImplementerId { get; set; }
         public int RepairId { get; set; }
-        [DisplayName("Клиент")]
+        [Column(title: "Клиент", width: 120)]
         public string ClientName { get; set; }
-        [DisplayName("Исполнитель")]
+        [Column(title: "Исполнитель", width: 120)]
+        [DataMember]
         public string ImplementerName { get; set; }
-        [DisplayName("Ремонт")]
+        [Column(title: "Ремонт", gridViewAutoSize: GridViewAutoSize.Fill)]
         public string RepairName { get; set; }
-        [DisplayName("Количество")]
+        [Column(title: "Количество", width: 50)]
         public int Count { get; set; }
-        [DisplayName("Сумма")]
+        [Column(title: "Сумма", width: 50)]
         public decimal Sum { get; set; }
-        [DisplayName("Статус")]
+        [Column(title: "Статус", width: 100)]
         public OrderStatus Status { get; set; }
-        [DisplayName("Дата создания")]
+        [Column(title: "Дата создания", width: 100)]
         public DateTime DateCreate { get; set; }
-        [DisplayName("Дата выполнения")]
+        [Column(title: "Дата выполнения", width: 100)]
         public DateTime? DateImplement { get; set; }
     }
 }

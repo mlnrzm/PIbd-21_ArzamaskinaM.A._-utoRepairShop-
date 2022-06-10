@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel;
+﻿using AbstractCarRepairShopContracts.Attributes;
 
 namespace AbstractCarRepairShopContracts.ViewModels
 {
@@ -8,13 +7,13 @@ namespace AbstractCarRepairShopContracts.ViewModels
     /// </summary>
     public class ImplementerViewModel
     {
+        [Column(title: "Номер", width: 50, visible: false)]
         public int Id { get; set; }
-        [DisplayName("ФИО")]
+        [Column(title: "ФИО исполнителя", gridViewAutoSize: GridViewAutoSize.Fill)]
         public string Name { get; set; }
-        [DisplayName("Время работы")]
+        [Column(title: "Время работы", width: 100)]
         public int WorkingTime { get; set; }
-
-        [DisplayName("Время простоя")]
+        [Column(title: "Время отдыха", width: 100)]
         public int PauseTime { get; set; }
     }
 }

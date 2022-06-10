@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel;
+using AbstractCarRepairShopContracts.Attributes;
 
 namespace AbstractCarRepairShopContracts.ViewModels
 {
@@ -8,10 +8,11 @@ namespace AbstractCarRepairShopContracts.ViewModels
     /// </summary>
     public class RepairViewModel
     {
+        [Column(title: "Номер", width: 50, visible: false)]
         public int Id { get; set; }
-        [DisplayName("Название ремонта")]
+        [Column(title: "Название ремонта", gridViewAutoSize: GridViewAutoSize.Fill)]
         public string RepairName { get; set; }
-        [DisplayName("Цена")]
+        [Column(title: "Цена", width: 100)]
         public decimal Price { get; set; }
         public Dictionary<int, (string, int)> RepairComponents { get; set; }
     }

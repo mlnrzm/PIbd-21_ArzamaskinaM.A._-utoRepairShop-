@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Unity;
 using AbstractCarRepairShopContracts.BindingModels;
@@ -31,14 +24,7 @@ namespace AbstractCarRepairShopView
         {
             try
             {
-                var list = logic.Read(null);
-                if (list != null)
-                {
-                    dataGridViewImplementers.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-                    dataGridViewImplementers.DataSource = list;
-                    dataGridViewImplementers.Columns[0].Visible = false;
-                    dataGridViewImplementers.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                }
+                Program.ConfigGrid(logic.Read(null), dataGridViewImplementers);
             }
             catch (Exception ex)
             {
