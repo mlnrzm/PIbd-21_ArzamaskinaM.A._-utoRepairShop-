@@ -38,18 +38,16 @@ namespace CarRepairShop
         private static IUnityContainer BuildUnityContainer()
         {
             var currentContainer = new UnityContainer();
-            currentContainer.RegisterType<IComponentStorage,
-            ComponentStorage>(new HierarchicalLifetimeManager());
-            currentContainer.RegisterType<IOrderStorage, OrderStorage>(new
-            HierarchicalLifetimeManager());
-            currentContainer.RegisterType<IRepairStorage, RepairStorage>(new
-            HierarchicalLifetimeManager());
-            currentContainer.RegisterType<IComponentLogic, ComponentLogic>(new
-            HierarchicalLifetimeManager());
-            currentContainer.RegisterType<IOrderLogic, OrderLogic>(new
-            HierarchicalLifetimeManager());
-            currentContainer.RegisterType<IRepairLogic, RepairLogic>(new
-            HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IComponentStorage,ComponentStorage>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IOrderStorage, OrderStorage>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IRepairStorage, RepairStorage>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IWarehouseStorage, WarehouseStorage>(new HierarchicalLifetimeManager());
+
+            currentContainer.RegisterType<IComponentLogic, ComponentLogic>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IOrderLogic, OrderLogic>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IRepairLogic, RepairLogic>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IWarehouseLogic, WarehouseLogic>(new HierarchicalLifetimeManager());
+
             return currentContainer;
         }
     }
