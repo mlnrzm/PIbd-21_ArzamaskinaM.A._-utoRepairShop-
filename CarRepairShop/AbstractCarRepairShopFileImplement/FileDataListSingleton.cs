@@ -14,14 +14,17 @@ namespace AbstractCarRepairShopFileImplement
         private readonly string ComponentFileName = "Component.xml";
         private readonly string OrderFileName = "Order.xml";
         private readonly string RepairFileName = "Repair.xml";
+        private readonly string WarehouseFileName = "Warehouse.xml";
         public List<Component> Components { get; set; }
         public List<Order> Orders { get; set; }
         public List<Repair> Repairs { get; set; }
+        public List<Warehouse> Warehouses { get; set; }
         private FileDataListSingleton()
         {
             Components = LoadComponents();
             Orders = LoadOrders();
             Repairs = LoadRepairs();
+            Warehouses = LoadWarehouses();
         }
         public static FileDataListSingleton GetInstance()
         {
@@ -36,6 +39,7 @@ namespace AbstractCarRepairShopFileImplement
             SaveComponents();
             SaveOrders();
             SaveRepairs();
+            SaveWarehouses();
         }
         private List<Component> LoadComponents()
         {
@@ -109,6 +113,35 @@ namespace AbstractCarRepairShopFileImplement
             }
             return list;
         }
+        private List<Warehouse> LoadWarehouses()
+        {
+            var list = new List<Warehouse>();
+            if (File.Exists(WarehouseFileName))
+            {
+                XDocument xDocument = XDocument.Load(WarehouseFileName);
+
+                var xElements = xDocument.Root.Elements("Warehouse").ToList();
+
+                foreach (var elem in xElements)
+                {
+                    var warehouseComponents = new Dictionary<int, int>();
+                    foreach (var ingredient in elem.Element("WarehouseComponents").Elements("WarehouseComponent").ToList())
+                    {
+                        warehouseComponents.Add(Convert.ToInt32(ingredient.Element("Key").Value), Convert.ToInt32(ingredient.Element("Value").Value));
+                    }
+
+                    list.Add(new Warehouse
+                    {
+                        Id = Convert.ToInt32(elem.Attribute("Id").Value),
+                        WarehouseName = elem.Element("WarehouseName").Value,
+                        ResponsibleName = elem.Element("ResponsibleName").Value,
+                        DateCreation = Convert.ToDateTime(elem.Element("DateCreation").Value),
+                        WarehouseComponents = warehouseComponents
+                    });
+                }
+            }
+            return list;
+        }
         private void SaveComponents()
         {
             if (Components != null)
@@ -169,6 +202,34 @@ namespace AbstractCarRepairShopFileImplement
                 xDocument.Save(RepairFileName);
             }
         }
+        private void SaveWarehouses()
+        {
+            if (Warehouses != null)
+            {
+                var xElement = new XElement("Warehouses");
 
+                foreach (var wareHouse in Warehouses)
+                {
+                    var compElement = new XElement("WarehouseComponents");
+
+                    foreach (var component in wareHouse.WarehouseComponents)
+                    {
+                        compElement.Add(new XElement("WarehouseComponent",
+                        new XElement("Key", component.Key),
+                        new XElement("Value", component.Value)));
+                    }
+
+                    xElement.Add(new XElement("Warehouse",
+                        new XAttribute("Id", wareHouse.Id),
+                        new XElement("WarehouseName", wareHouse.WarehouseName),
+                        new XElement("ResponsibleName", wareHouse.ResponsibleName),
+                        new XElement("DateCreation", wareHouse.DateCreation),
+                        compElement));
+                }
+
+                XDocument xDocument = new(xElement);
+                xDocument.Save(WarehouseFileName);
+            }
+        }
     }
 }
