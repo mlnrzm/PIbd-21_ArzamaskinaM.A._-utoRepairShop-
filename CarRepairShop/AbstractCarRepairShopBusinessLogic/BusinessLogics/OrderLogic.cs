@@ -11,9 +11,11 @@ namespace AbstractCarRepairShopBusinessLogic.BusinessLogics
     public class OrderLogic : IOrderLogic
     {
         private readonly IOrderStorage _orderStorage;
-        public OrderLogic(IOrderStorage orderStorage)
+        private readonly IWarehouseStorage _warehouseStorage;
+        public OrderLogic(IOrderStorage orderStorage, IWarehouseStorage warehouseStorage)
         {
             _orderStorage = orderStorage;
+            _warehouseStorage = warehouseStorage;
         }
         public List<OrderViewModel> Read(OrderBindingModel model)
         {
@@ -104,6 +106,15 @@ namespace AbstractCarRepairShopBusinessLogic.BusinessLogics
 
             if (element.Status == OrderStatus.Принят) { element.Status = OrderStatus.Выполняется; }
             else throw new Exception("Невозможно начать выполнение заказа");
+
+            if (!_warehouseStorage.CheckWriteOff(new CheckWriteOffBindingModel
+            {
+                RepairId = element.RepairId,
+                Count = element.Count
+            }))
+            {
+                throw new Exception("Компонентов не достаточно");
+            }
 
             _orderStorage.Update(new OrderBindingModel
             {

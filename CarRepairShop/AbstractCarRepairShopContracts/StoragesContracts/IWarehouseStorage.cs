@@ -12,5 +12,6 @@ namespace AbstractCarRepairShopContracts.StoragesContracts
 		void Insert(WarehouseBindingModel model);
 		void Update(WarehouseBindingModel model);
 		void Delete(WarehouseBindingModel model);
+		bool CheckWriteOff(CheckWriteOffBindingModel model);
 	}
 }

@@ -17,7 +17,7 @@ namespace AbstractCarRepairShopListImplement.Implements
         }
         public List<WarehouseViewModel> GetFullList()
         {
-            List<WarehouseViewModel> result = new List<WarehouseViewModel>();
+            List<WarehouseViewModel> result = new();
             foreach (var component in source.Warehouse)
             {
                 result.Add(CreateModel(component));
@@ -30,7 +30,7 @@ namespace AbstractCarRepairShopListImplement.Implements
             {
                 return null;
             }
-            List<WarehouseViewModel> result = new List<WarehouseViewModel>();
+            List<WarehouseViewModel> result = new();
             foreach (var WareHouse in source.Warehouse)
             {
                 if (WareHouse.WarehouseName.Contains(model.WarehouseName))
@@ -57,7 +57,9 @@ namespace AbstractCarRepairShopListImplement.Implements
         }
         public void Insert(WarehouseBindingModel model)
         {
-            Warehouse tempWareHouse = new Warehouse { Id = 1, WarehouseComponents = new Dictionary<int, (string, int)>() };
+            Warehouse tempWareHouse = new() 
+            { Id = 1, WarehouseComponents = new Dictionary<int, (string, int)>() };
+
             foreach (var WareHouse in source.Warehouse)
             {
                 if (WareHouse.Id >= tempWareHouse.Id)
@@ -123,7 +125,7 @@ namespace AbstractCarRepairShopListImplement.Implements
         }
         private WarehouseViewModel CreateModel(Warehouse Warehouse)
         {
-            Dictionary<int, (string, int)> WarehouseComponents = new Dictionary<int, (string, int)>();
+            Dictionary<int, (string, int)> WarehouseComponents = new();
             foreach (var sc in Warehouse.WarehouseComponents)
             {
                 string componentName = string.Empty;
@@ -145,6 +147,10 @@ namespace AbstractCarRepairShopListImplement.Implements
                 DateCreation = Warehouse.DateCreate,
                 WarehouseComponents = WarehouseComponents
             };
+        }
+        public bool CheckWriteOff(CheckWriteOffBindingModel model)
+        {
+            throw new NotImplementedException();
         }
     }
 }
