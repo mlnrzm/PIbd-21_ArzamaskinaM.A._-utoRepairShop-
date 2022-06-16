@@ -45,9 +45,11 @@ namespace AbstractCarRepairShopFileImplement.Implements
         }
         public void Insert(OrderBindingModel model)
         {
-            var maxId = from order in source.Orders
-                         select order.Id;
-            var element = new Order { Id = maxId.Max() + 1 };
+            int maxId = source.Orders.Count > 0 ? source.Orders.Max(rec => rec.Id) : 0;
+            var element = new Order
+            {
+                Id = maxId + 1,
+            };
             source.Orders.Add(CreateModel(model, element));
         }
         public void Update(OrderBindingModel model)

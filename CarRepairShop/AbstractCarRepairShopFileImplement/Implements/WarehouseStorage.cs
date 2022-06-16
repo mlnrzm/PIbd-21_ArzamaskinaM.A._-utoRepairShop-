@@ -92,7 +92,8 @@ namespace AbstractCarRepairShopFileImplement.Implements
                     }
                 }
             }
-            bool can = available.ToList().All(component => component.Value >= neccesary[component.Key]);
+
+            bool can = available.ToList().Where(comp => neccesary.ContainsKey(comp.Key)).All(component => component.Value >= (int)neccesary[component.Key]);
             if (!can || available.Count == 0)
             {
                 return false;
